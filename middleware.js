@@ -10,7 +10,9 @@ const User = require('./models/user.js');
 module.exports.isLogedIn = (req,res,next)=>{
     if(!req.isAuthenticated())
     {
-        req.session.redirectUrl = req.originalUrl;
+        req.session.redirectUrl = req.originalUrl ;
+        
+        
        
         //this is used beacause as we login then i should enter into the webpage i wanted i.e
         //suppose i click on new listing and i was not loggedin then it will redirect me to the login page and as i succesfully logged in i was redirecting

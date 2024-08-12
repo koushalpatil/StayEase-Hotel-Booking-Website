@@ -16,6 +16,8 @@ const transporter = nodemailer.createTransport({
 });
 
 
+
+//OTP VERFICATION BEFORE  signing up 
 function verifyMail(req) {
     return new Promise((resolve, reject) => {
         let subject = 'OTP for StayEase!';
@@ -57,7 +59,7 @@ The StayEase Team
 }
 
 
-
+//Email for the otp verfication before reservation
 function verifyMail1(user,req) {
     return new Promise((resolve, reject) => {
         let subject = 'OTP for StayEase Reservation Confirmation!';
@@ -100,6 +102,11 @@ The StayEase Team
 }
 
 
+module.exports.getList = (req,res)=>{
+    let {id} = req.params;
+    res.redirect(`/listings/${id}`);
+}
+
 module.exports.verify = async (req, res, next) => {
     let data = req.body;
     req.session.tempData = data;
@@ -133,10 +140,13 @@ module.exports.verify1 = async (req, res, next) => {
 
 module.exports.resend = async (req, res, next) => {
     try {
-        const otp = await verifyMail(req);
-        console.log("Temp data from user after verifyMail - ", req.session.tempData);
+        let {id} = req.params;
+        const user = await User.findById(req.user.id);
         req.flash("success","OTP resend to email.");
-        res.render('user/otp.ejs');
+        const otp = await verifyMail1(user,req);
+        console.log("Temp data from user after verifyMail - ", req.session.tempData);
+       
+        res.render('user/otp(reservation).ejs',{id});
     } catch (error) {
         console.error("Error sending email:", error);
         res.status(500).json({ success: false, message: "Failed to send email." });

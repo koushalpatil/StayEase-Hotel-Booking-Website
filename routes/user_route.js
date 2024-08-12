@@ -17,15 +17,18 @@ router.get("/signup",userController.renderSignUpForm);
 router.post("/signup",wrapAsync(userController.signUp));
 
 
+router.get("/verify/:id",userController.getList);
+
+
 //verify post request
 router.post("/verify",wrapAsync(userController.verify));
 
 //verification before reservation
-router.post("/verify/:id",wrapAsync(userController.verify1));
+router.post("/verify/:id",isLogedIn,wrapAsync(userController.verify1));
 
 
 //resend otp
-router.get("/resend",wrapAsync(userController.resend));
+router.get("/resend/:id",wrapAsync(userController.resend));
 
 //Handling invalid otp
 router.get("/invalid",userController.invalid);

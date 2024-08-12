@@ -100,13 +100,25 @@
       <% } else { %>
         <% user.bookings.forEach(book => { %>
           <tr>
-            <td class="status-confirmed"><%= book.status %></td>
+            <%if(book.status == 'Expired'){%>
+              <td class="status-confirmed" style="color: red;"><%= book.status %></td>
+            <%}else{%>
+              <td class="status-confirmed"><%= book.status %></td>
+            <%}%>
+            
             <td class="guest-name"><%= user.username %></td>
             <td><%= book.checkInDate %>&nbsp; to &nbsp;<%= book.checkOutDate %><br><%= book.nights %> nights</td>
             <td class="date-now"><%= book.time %></td>
             <td><a style="text-decoration: none;" href="/listings/<%= book.listing._id %>"><%= book.listing.title %></a></td>
             <td>
-              <button type="button" class="btn btn-danger" onclick="showModal('<%= book._id %>')">Cancel Booking</button>
+              
+              <%if(book.status == 'Expired'){%>
+                <button type="button" class="btn btn-danger" disabled onclick="showModal('<%= book._id %>')">Cancel Booking</button>
+                
+              <%}else{%>
+                <button type="button" class="btn btn-danger" onclick="showModal('<%= book._id %>')">Cancel Booking</button>
+               
+              <%}%>
             </td>
           </tr>
         <% }) %>
