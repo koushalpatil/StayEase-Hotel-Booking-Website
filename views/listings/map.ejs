@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map with GeoJSON Data</title>
+    <!-- Load Mapbox CSS -->
+    <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css" rel="stylesheet" />
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            color: #404040;
+            font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1 {
+            font-size: 22px;
+            margin: 0;
+            font-weight: 400;
+            line-height: 20px;
+            padding: 20px 2px;
+            color: #fff;
+        }
+
+        a {
+            color: #404040;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #101010;
+        }
+
+        .sidebar {
+            position: absolute;
+            width: 33.3333%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            border-right: 1px solid rgba(0, 0, 0, 0.25);
+            background-color: #333;
+            z-index: 1;
+        }
+
+        .map {
+            position: absolute;
+            left: 33.3333%;
+            width: 66.6666%;
+            top: 0;
+            bottom: 0;
+        }
+
+        .heading {
+            background: #333;
+            border-bottom: 1px solid #555;
+            height: auto;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .search-container {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .search-input {
+            width: calc(100% - 40px);
+            padding: 10px;
+            border: 1px solid #555;
+            border-radius: 20px;
+            font-size: 14px;
+            outline: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease-in-out;
+            background-color: #555;
+            color: #fff;
+        }
+
+        .search-input:focus {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .listings {
+            height: calc(100% - 90px);
+            overflow: auto;
+            padding-bottom: 60px;
+        }
+
+        .listings .item {
+            border-bottom: 1px solid #555;
+            padding: 10px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+            background-color: #333;
+            color: #fff;
+        }
+
+        .listings .item:hover {
+            background-color: #444;
+        }
+
+        .listings .item:last-child {
+            border-bottom: none;
+        }
+
+        .listings .item .title {
+            display: block;
+            color: #8cc63f;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .listings .item .location {
+            display: block;
+            color: #ddd;
+            font-weight: 400;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .listings .item.active .title,
+        .listings .item .title:hover {
+            color: #c0e74e;
+        }
+
+        .listings .item.active {
+            background-color: #555;
+        }
+
+        ::-webkit-scrollbar {
+            width: 3px;
+            height: 3px;
+            border-left: 0;
+            background: rgba(0 0 0 0.1);
+        }
+
+        ::-webkit-scrollbar-track {
+            background: none;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #8cc63f;
+            border-radius: 0;
+        }
+
+        .mapboxgl-popup-close-button {
+            display: block;
+            background: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            z-index: 1;
+        }
+
+        .mapboxgl-popup-content {
+            font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', sans-serif;
+            padding: 0;
+            width: 18rem;
+            height: 18rem;
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+        }
+
+        .mapboxgl-popup-content h3 {
+            background: #91c949;
+            color: #fff;
+            margin: 0;
+            font-weight: 700;
+            margin-top: -15px;
+        }
+
+        .mapboxgl-popup-content h4 {
+            margin: 0;
+            font-weight: 400;
+        }
+
+        .mapboxgl-popup-anchor-top>.mapboxgl-popup-content {
+            margin-top: 15px;
+        }
+
+        .mapboxgl-popup-anchor-top>.mapboxgl-popup-tip {
+            border-bottom-color: #91c949;
+        }
+
+        @media screen and (max-width: 1150px) {
+            .sidebar {
+                display: none;
+            }
+
+            .map {
+                left: 0;
+                width: 100%;
+            }
+
+            .toggle-btn {
+                position: fixed;
+                top: 10px;
+                left: 10px;
+                z-index: 1000;
+                background-color: #333;
+                color: #fff;
+                border: none;
+                padding: 10px;
+                cursor: pointer;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="heading">
+            <h1>Our Locations</h1>
+            <div class="search-container">
+                <input id="search-input" class="search-input" type="text" placeholder="Search locations..." />
+            </div>
+        </div>
+        <div id="listings" class="listings"></div>
+    </div>
+    <div id="map" class="map">
+        <a href="/listings" class="map">
+            <button style="position: fixed; left:62%; z-index: 100; bottom: 5%; border-radius: 1.5rem; background-color: black; border: none; color: white; width: 8rem; height: 2.5rem; text-align: center; font-size: 0.9rem;">
+                <b>Show listings</b>
+            </button>
+        </a>
+        <button id="toggle-sidebar" class="toggle-btn">&#9776; Locations</button>
+    </div>
+
+    <!-- Load Mapbox JS -->
+    <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
+    <script>
+        // Replace with your actual Mapbox access token
+        mapboxgl.accessToken = "<%= process.env.MAP_TOKEN %>";
+
+        // Determine the initial zoom level based on screen width
+        const initialZoom = window.innerWidth <= 1150 ? 1 : 2;
+
+        const map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/outdoors-v12',
+            center: [-95.7129, 37.0902], // Example coordinates for initial map view
+            zoom: initialZoom,
+            scrollZoom: true
+        });
+
+        let stores = [];
+        for (let store of <%- JSON.stringify(geometry) %>) {
+            stores.push(store);
+        }
+
+        // Create GeoJSON feature collection from points
+        const geojson = {
+            type: 'FeatureCollection',
+            features: stores.map((point, index) => ({
+                type: 'Feature',
+                geometry: point,
+                properties: { id: index, ...point.properties }
+            }))
+        };
+
+        // Define the flyToStore function
+        function flyToStore(currentFeature, fromSidebar) {
+            const coordinates = fromSidebar ? currentFeature.coordinates : currentFeature.geometry.coordinates;
+            map.flyTo({
+                center: coordinates,
+                zoom: 15
+            });
+        }
+
+        // Define the createPopUp function
+        function createPopUp(currentFeature, fromSidebar) {
+            const coordinates = fromSidebar ? currentFeature.coordinates : currentFeature.geometry.coordinates;
+
+            // Remove existing popups
+            const popUps = document.getElementsByClassName('mapboxgl-popup');
+            if (popUps[0]) popUps[0].remove();
+
+            let card =
+                `<a href="/listings/${currentFeature.properties.o_id}" style="text-decoration: none; color: inherit;">
+                    <div class="card" style="padding:0; margin:0; display: flex; flex-direction: column; height: 100%;">
+                        <img class="card-img-top" src="${currentFeature.properties.img}" alt="Card image cap" style="width: 100%; height: 60%; object-fit: cover; border-bottom: 1px solid #ddd;">
+                        <div style="padding: 10px; display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1;">
+                            <div style="font-size: 1.2rem; font-weight: bold;">${currentFeature.properties.name}</div>
+                             <div style="font-size: 1rem; color: #666;">${currentFeature.properties.location}</div>
+                            <div style="font-size: 1rem; font-weight: bold; color: #333;">&#8377;${currentFeature.properties.price}/night</div>
+                        </div>
+                    </div>
+                </a>`;
+
+            new mapboxgl.Popup({ closeOnClick: false, closeButton: true }) // Enable the close button
+                .setLngLat(coordinates)
+                .setHTML(card)
+                .addTo(map);
+        }
+
+        map.on('load', () => {
+            // Add the GeoJSON data as a new source
+            map.addSource('locations', {
+                type: 'geojson',
+                data: geojson
+            });
+
+            // Add a layer to visualize the points
+            map.addLayer({
+                id: 'locations',
+                type: 'circle',
+                source: 'locations',
+                paint: {
+                    'circle-radius': 10,
+                    'circle-color': '#FF0000', // Use a bright color for visibility
+                    'circle-stroke-width': 1,
+                    'circle-stroke-color': '#FFFFFF' // White border for contrast
+                }
+            });
+
+            // Add popups for each point
+            map.on('click', 'locations', (e) => {
+                const clickedPoint = e.features[0];
+                flyToStore(clickedPoint, false);
+                createPopUp(clickedPoint, false);
+            });
+
+            // Change the cursor to a pointer when hovering over the points
+            map.on('mouseenter', 'locations', () => {
+                map.getCanvas().style.cursor = 'pointer';
+            });
+
+            // Change the cursor back to default when leaving the points
+            map.on('mouseleave', 'locations', () => {
+                map.getCanvas().style.cursor = '';
+            });
+        });
+
+        // Handle clicks on the map to zoom out and hide popups when clicking outside of points and sidebar
+        map.on('click', (event) => {
+            const features = map.queryRenderedFeatures(event.point, {
+                layers: ['locations']
+            });
+
+            if (!features.length) {
+                // Click is outside the points, remove any popups and zoom out
+                const popUps = document.getElementsByClassName('mapboxgl-popup');
+                if (popUps[0]) popUps[0].remove();
+
+                map.flyTo({
+                    center: [-95.7129, 37.0902], // Adjust to desired center if needed
+                    zoom: 2 // Adjust to desired zoom level
+                });
+            }
+        });
+
+        function buildLocationList(stores) {
+            const listings = document.getElementById('listings');
+            listings.innerHTML = ''; // Clear existing listings
+
+            for (const store of stores) {
+                const listing = listings.appendChild(document.createElement('div'));
+                listing.id = `listing-${store.properties.id}`;
+                listing.className = 'item';
+
+                const title = listing.appendChild(document.createElement('div'));
+                title.className = 'title';
+                title.innerHTML = `${store.properties.name}`;
+
+                const location = listing.appendChild(document.createElement('div'));
+                location.className = 'location';
+                location.innerHTML = `${store.properties.location}`;
+
+                listing.addEventListener('click', function () {
+                    for (const feature of stores) {
+                        if (this.id === `listing-${feature.properties.id}`) {
+                            flyToStore(feature, true);
+                            createPopUp(feature, true);
+                        }
+                    }
+                    const activeItem = document.getElementsByClassName('active');
+                    if (activeItem[0]) {
+                        activeItem[0].classList.remove('active');
+                    }
+                    this.classList.add('active');
+
+                    // Hide sidebar on click if screen width is less than or equal to 1150px
+                    if (window.innerWidth <= 1150) {
+                        document.querySelector('.sidebar').style.display = 'none';
+                    }
+                });
+            }
+        }
+
+        // Initialize the location list in the sidebar
+        buildLocationList(stores);
+
+        // Hide popups and zoom out when clicking outside the sidebar
+        document.addEventListener('click', function (e) {
+            const target = e.target;
+
+            // Check if the click is outside the map container or any of the sidebar elements
+            if (!map.getCanvas().contains(target) && !document.getElementById('listings').contains(target)) {
+                // Remove any existing popups
+                const popUps = document.getElementsByClassName('mapboxgl-popup');
+                if (popUps[0]) popUps[0].remove();
+
+                // Zoom out to the initial view or a predefined level
+                map.flyTo({
+                    center: [-95.7129, 37.0902], // Adjust to desired center if needed
+                    zoom: 2 // Adjust to desired zoom level
+                });
+            }
+        });
+
+        // Function to filter and update the location list based on the search query
+        function filterLocations(query) {
+            // Convert query to lowercase for case-insensitive comparison
+            const lowerCaseQuery = query.toLowerCase();
+
+            // Filter stores based on the location name or any other property you want to search by
+            const filteredStores = stores.filter(store => {
+                const locationName = store.properties.location.toLowerCase();
+                return locationName.includes(lowerCaseQuery);
+            });
+
+            // Update the sidebar with the filtered list
+            buildLocationList(filteredStores);
+        }
+
+        // Add event listener to the search input field to handle the search functionality
+        document.getElementById('search-input').addEventListener('input', function () {
+            const query = this.value;
+            filterLocations(query);
+        });
+
+        // Toggle sidebar visibility on button click
+        document.getElementById('toggle-sidebar').addEventListener('click', function () {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.style.display = sidebar.style.display === 'none' ? 'block' : 'none';
+        });
+    </script>
+</body>
+</html>

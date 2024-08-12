@@ -1,0 +1,653 @@
+<% layout('/layouts/boilerplate.ejs') %>
+
+  <head>
+    <style>
+      /* Style for the main profile section */
+      .main1 {
+        min-width: 320px;
+        /* height: 45rem; */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 3%;
+        font-size: 5rem;
+      }
+
+      /* Favourites section styling */
+      .favourites-section {
+        border-top: 2px solid #ddd;
+        margin-top: 2rem;
+        padding-top: 2rem;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+      }
+
+      .favourites-section h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .favourites-section ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .favourites-section .favourite-item {
+        border-bottom: 1px solid #ddd;
+        padding: 1rem 0;
+      }
+
+      .favourites-section .favourite-item h3 {
+        font-size: 1rem;
+        margin: 0;
+      }
+
+      .favourites-section .favourite-item p {
+        font-size: 0.8rem;
+        margin: 0.5rem 0 0;
+      }
+
+      .main2 {
+        height: 45rem;
+        padding-top: 3%;
+      }
+
+      .main {
+        display: flex;
+        column-gap: 3rem;
+      }
+
+      .profile-photo {
+
+        width: 13rem;
+        height: 13rem;
+        border-radius: 50%;
+        background-color: black;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bolder;
+      }
+
+      .info-link {
+        margin-bottom: 1rem;
+        width: 93%;
+        display: flex;
+        cursor: pointer;
+        align-items: center;
+        height: 3rem;
+        transition: all 0.4s ease-in-out;
+        padding-left: 0.8rem;
+      }
+
+
+      .info-link:hover {
+        background-color: #e0e0e0;
+        /* color: #007bff;  */
+        border-radius: 5px;
+      }
+
+      .modal-content {
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .modal-header {
+        border-bottom: none;
+        background-color: #343a40;
+        color: #ffffff;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+      }
+
+      .close {
+        background-color: #343a40;
+      }
+
+      .modal-header .close {
+        color: #ffffff;
+        opacity: 1;
+      }
+
+      .modal-title {
+        color: #ffffff;
+      }
+
+      .modal-body {
+        padding: 20px;
+      }
+
+      .modal-footer {
+        border-top: none;
+
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+      }
+
+      .modal-footer button {
+        color: #ffffff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+      }
+
+      .modal-footer button:hover {
+        background-color: #0056b3;
+      }
+
+      @media(max-width:770px) {
+        .main {
+          flex-direction: column;
+
+        }
+
+        /* .main1
+      {
+        height: 40rem;
+
+      } */
+        .main2 {
+          height: 55rem;
+        }
+
+        /* .profile-photo
+      {
+        width: 30%;
+        height: 70%;
+      } */
+      }
+
+      .empty-favorites {
+        text-align: center;
+        padding: 2rem;
+        background-color: #f8f9fa;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        margin-top: 2rem;
+      }
+
+      .empty-favorites p {
+        margin: 0.5rem 0;
+        font-size: 0.8rem;
+      }
+
+      .empty-favorites .btn {
+        margin-top: 1rem;
+        border-radius: 1.5rem;
+        background-color: #ff385c;
+        color: white;
+      }
+
+      .empty-favorites .btn:hover {
+        background-color: #e0245e;
+      }
+
+      .main-search,
+      .main-search-btn {
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <% function displayPreference(preference) { 
+      return preference ? preference : 'N/A'; 
+  } %>
+  
+  <% function formatUsername(username) { 
+      if (!username) return ''; 
+      return username.charAt(0).toUpperCase() + username.slice(1).toLowerCase(); 
+  } %>
+  
+  <% function formatDate(dob) { 
+      if (!dob || !(dob instanceof Date) || isNaN(dob.getTime())) {
+          return 'N/A';
+      }
+      let day = String(dob.getDate()).padStart(2, '0'); 
+      let month = String(dob.getMonth() + 1).padStart(2, '0'); 
+      let year = dob.getFullYear();
+      return `${day}-${month}-${year}`;
+  } %>
+  
+  <% function solve(field) {
+      if (displayPreference(field) === 'N/A') {
+          return displayPreference(field);
+      } else {
+          return formatUsername(displayPreference(field));
+      }
+  } %>  
+
+            <div class="main mt-3">
+             
+              <div class="main1">
+                <div class="profile-photo">
+                  <%= currUser.username[0].toUpperCase() %>
+                </div>
+                <div class="favourites-section">
+                  <h2>Your Favorites</h2>
+                  <%if(user.favourites.length) {%>
+                    <ul>
+                      <% user.favourites.slice(0, 4).forEach(fav=> { %>
+                        <a href="/listings/<%= fav._id %>" style="text-decoration: none; color: black;">
+                          <li class="favourite-item" style="font-size: 0.8rem;">
+                            <h3>
+                              <%= fav.title %>
+                            </h3>
+                            <p>
+                              <%= fav.location %>
+                            </p>
+                          </li>
+                        </a>
+                        <% }); %>
+                    </ul>
+                    <%} else {%>
+                      <p style="font-size: 0.8rem;">Your favourite list is empty!</p>
+                      <p style="font-size: 0.8rem;">Start exploring and add hotels to your favorites!</p>
+                      <form action="/listings">
+                        <button type="submit" class="btn btn-outline-dark mb-4"
+                          style="background-color: #ff385c; color: white;">Explore</button>
+                      </form>
+                      <%}%>
+                </div>
+              </div>
+
+
+              <div class="main2">
+                <h3 style="font-weight: 700;" class="mb-4">Your&nbsp; profile</h3>
+                <p style="padding-right: 3rem; color: rgb(97, 93, 93);">The information you share will be used across
+                  Airbnb to help other guests and Hosts get to know you.</p>
+                <div class="row mt-5" style="display: flex;">
+
+
+                  <div class="info1 col-lg-6 col-12" style="display: flex; flex-direction: column;">
+
+                    <div class="info-link " data-toggle="modal" data-target="#cityModal">
+                      <span style="width: 70%;margin-right: 3rem;"><i class="fas fa-city"></i> <span
+                          style="margin-left: 0.7rem;">City &nbsp;: &nbsp;<%= solve(user.city)%></span></span><i
+                        class="fa-solid fa-angle-right"></i>
+                    </div>
+                    <div class="info-link" data-toggle="modal" data-target="#countryModal">
+                      <span style="width: 70%;margin-right: 3rem;"><i class="fas fa-flag"></i> <span
+                          style="margin-left: 0.7rem;">Country &nbsp;: &nbsp;<%= solve(user.country)%></span></span><i
+                        class="fa-solid fa-angle-right"></i>
+                    </div>
+                    <div class="info-link" data-toggle="modal" data-target="#bedModal">
+                      <span style="width: 70%;margin-right: 3rem;"><i class="fas fa-bed"></i> <span
+                          style="margin-left: 0.7rem;">Preferred Bed &nbsp;: &nbsp;<%= solve(user.p_bed)%>
+                            </span></span><i class="fa-solid fa-angle-right"></i>
+                    </div>
+                    <div class="info-link" data-toggle="modal" data-target="#smokingModal">
+                      <span style="width: 70%;margin-right: 3rem;"><i class="fas fa-smoking"></i> <span
+                          style="margin-left: 0.7rem;">Preference &nbsp;: &nbsp;<%= solve(user.preference)%>
+                            </span></span><i class="fa-solid fa-angle-right"></i>
+                    </div>
+                    <div class="info-link" data-toggle="modal" data-target="#dobModal">
+                      <span style="width: 70%;margin-right: 3rem;"><i class="fas fa-birthday-cake"></i> <span
+                          style="margin-left: 0.7rem;">Date of Birth &nbsp;: &nbsp;<%= formatDate(user.dob)%></span></span><i
+                        class="fa-solid fa-angle-right"></i>
+                    </div>
+                    <div class="info-link" data-toggle="modal" data-target="#emailModal">
+                      <span style="width: 70%; margin-right: 3rem;"><i class="fas fa-envelope"></i> <span
+                          style="margin-left: 0.7rem;">Email &nbsp;: &nbsp;<%= displayPreference(user.email)%>
+                            </span></span><i class="fa-solid fa-angle-right"></i>
+                    </div>
+
+
+                  </div>
+                  <div class="info2 col-lg-6 col-12" style="display: flex; flex-direction: column;">
+
+                    <div class="info-link" data-toggle="modal" data-target="#workModal">
+                      <span style="width: 70%;margin-right: 3rem;"><i class="fas fa-briefcase"></i> <span
+                          style="margin-left: 0.7rem;">Work &nbsp;: &nbsp;<%= solve(user.work)%></span></span><i
+                        class="fa-solid fa-angle-right"></i>
+                    </div>
+                    <div class="info-link" data-toggle="modal" data-target="#favSongModal">
+                      <span style="width: 70%;margin-right: 3rem;"><i class="fas fa-music"></i> <span
+                          style="margin-left: 0.7rem;">Favorite Song &nbsp;: &nbsp;<%= solve(user.fav_song)%>
+                            </span></span><i class="fa-solid fa-angle-right"></i>
+                    </div>
+                    <div class="info-link" data-toggle="modal" data-target="#languageModal">
+                      <span style="width: 70%;margin-right: 3rem;"><i class="fas fa-language"></i> <span
+                          style="margin-left: 0.7rem;">Language &nbsp;: &nbsp;<%= solve(user.language) %>
+                            </span></span><i class="fa-solid fa-angle-right"></i>
+                    </div>
+                    <div class="info-link" data-toggle="modal" data-target="#roomModal">
+                      <span style="width: 70%;margin-right: 3rem;"><i class="fas fa-door-closed"></i> <span
+                          style="margin-left: 0.7rem;">Preferred Room &nbsp;: &nbsp;<%= solve(user.p_room) %>
+                            </span></span><i class="fa-solid fa-angle-right"></i>
+                    </div>
+                    <div class="info-link" data-toggle="modal" data-target="#phoneModal">
+                      <span style="width: 70%;margin-right: 3rem;"><i class="fas fa-phone"></i> <span
+                          style="margin-left: 0.7rem;">Phone Number &nbsp;: &nbsp;<%= displayPreference(user.phoneno)%>
+                            </span></span> <i class="fa-solid fa-angle-right"></i>
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="modal fade" id="emailModal" tabindex="-1" aria-labelledby="emailModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered ">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="emailModalLabel">Email</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+
+                    <form action="/edit-profile/email?_method=PATCH" method="post">
+                      <div class="form-group">
+                        <label for="email" class="mb-2">Enter your email: </label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Email"
+                          value="<%=user.email%>">
+                      </div>
+                      <div class="modal-footer">
+                        <button>Save</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="modal fade" id="roomModal" tabindex="-1" aria-labelledby="roomModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered ">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="roomModalLabel">Room Preference</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+
+                    <form action="/edit-profile/p_room?_method=PATCH" method="post">
+                      <div class="form-group">
+                        <label for="room" class="mb-2">Select your room preference: </label>
+                        <select class="form-control" id="room" name="p_room"
+                          style="background-color: #f8f9fa; border: 1px solid #ced4da; border-radius: .25rem; padding: .375rem .75rem; font-size: 1rem; line-height: 1.5; color: #495057;">
+                          <option value="single">Single</option>
+                          <option value="double">Double</option>
+                          <option value="suite">Suite</option>
+                        </select>
+                      </div>
+                      <div class="modal-footer">
+                        <button>Save</button>
+                      </div>
+                    </form>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="modal fade" id="bedModal" tabindex="-1" aria-labelledby="bedModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered ">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="bedModalLabel">Bed Preference</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+
+                    <form action="/edit-profile/p_bed?_method=PATCH" method="post">
+                      <div class="form-group">
+                        <label for="bed" class="mb-2">Select your bed preference: </label>
+                        <select class="form-control" id="bed" name="p_bed"
+                          style="background-color: #f8f9fa; border: 1px solid #ced4da; border-radius: .25rem; padding: .375rem .75rem; font-size: 1rem; line-height: 1.5; color: #495057;">
+                          <option value="king">King</option>
+                          <option value="queen">Queen</option>
+                          <option value="twin">Twin</option>
+                        </select>
+                      </div>
+                      <div class="modal-footer">
+                        <button>Save</button>
+                      </div>
+                    </form>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="modal fade" id="smokingModal" tabindex="-1" aria-labelledby="smokingModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered ">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="smokingModalLabel">Smoking Preference</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+
+                    <form action="/edit-profile/preference?_method=PATCH" method="post">
+                      <div class="form-group">
+                        <label for="smoking" class="mb-2">Select your smoking preference: </label>
+                        <select class="form-control" id="smoking" name="preference"
+                          style="background-color: #f8f9fa; border: 1px solid #ced4da; border-radius: .25rem; padding: .375rem .75rem; font-size: 1rem; line-height: 1.5; color: #495057;">
+                          <option value="non-smoking">Non-Smoking</option>
+                          <option value="smoking">Smoking</option>
+                        </select>
+                      </div>
+                      <div class="modal-footer">
+                        <button>Save</button>
+                      </div>
+                    </form>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="modal fade" id="phoneModal" tabindex="-1" aria-labelledby="phoneModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered ">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="phoneModalLabel">Phone Number</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+
+                    <form action="/edit-profile/phoneno?_method=PATCH" method="post">
+                      <div class="form-group">
+                        <label for="phone" class="mb-2">Enter your phone number: </label>
+                        <input type="tel" class="form-control" name="phoneno" id="phone" placeholder="Phone Number">
+                      </div>
+                      <div class="modal-footer">
+                        <button>Save</button>
+                      </div>
+                    </form>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+
+            <div class="modal fade" id="cityModal" tabindex="-1" aria-labelledby="cityModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered ">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="cityModalLabel">City</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+
+                    <form action="/edit-profile/city?_method=PATCH" method="post">
+                      <div class="form-group">
+                        <label for="city" class="mb-2">Enter your city: </label>
+                        <input type="text" name="city" class="form-control" id="city" placeholder="City">
+                      </div>
+                      <div class="modal-footer">
+                        <button>Save</button>
+                      </div>
+                    </form>
+
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+
+            <div class="modal fade" id="countryModal" tabindex="-1" aria-labelledby="countryModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered ">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="countryModalLabel">Country</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+
+                    <form action="/edit-profile/country?_method=PATCH" method="post">
+                      <div class="form-group">
+                        <label for="country" class="mb-2">Enter your country: </label>
+                        <input type="text" name="country" class="form-control" id="country" placeholder="Country">
+                      </div>
+                      <div class="modal-footer">
+                        <button>Save</button>
+                      </div>
+                    </form>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+
+            <div class="modal fade" id="dobModal" tabindex="-1" aria-labelledby="dobModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered ">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="dobModalLabel">Date of Birth</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+
+                    <form action="/edit-profile/dob?_method=PATCH" method="post">
+                      <div class="form-group">
+                        <label for="dob" class="mb-2">Enter your date of birth: </label>
+                        <input type="date" name="dob" class="form-control" id="dob">
+                      </div>
+                      <div class="modal-footer">
+                        <button>Save</button>
+                      </div>
+                    </form>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+
+            <div class="modal fade" id="workModal" tabindex="-1" aria-labelledby="workModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered ">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="workModalLabel">Work</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+
+                    <form action="/edit-profile/work?_method=PATCH" method="post">
+                      <div class="form-group">
+                        <label for="work" class="mb-2">Enter your work: </label>
+                        <input type="text" name="work" class="form-control" id="work" placeholder="Work">
+                      </div>
+                      <div class="modal-footer">
+                        <button>Save</button>
+                      </div>
+                    </form>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+
+            <div class="modal fade" id="favSongModal" tabindex="-1" aria-labelledby="favSongModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered ">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="favSongModalLabel">Favorite Song</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+
+                    <form action="/edit-profile/fav_song?_method=PATCH" method="post">
+                      <div class="form-group">
+                        <label for="favSong" class="mb-2">Enter your favorite song: </label>
+                        <input type="text" name="fav_song" class="form-control" id="favSong"
+                          placeholder="Favorite Song">
+                      </div>
+                      <div class="modal-footer">
+                        <button>Save</button>
+                      </div>
+                    </form>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+
+            <div class="modal fade" id="languageModal" tabindex="-1" aria-labelledby="languageModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered ">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="languageModalLabel">Language</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+
+                    <form action="/edit-profile/language?_method=PATCH" method="post">
+                      <div class="form-group">
+                        <label for="language" class="mb-2">Your preferred language</label>
+                        <input type="text" name="language" class="form-control" id="language" placeholder="Language">
+                      </div>
+                      <div class="modal-footer">
+                        <button>Save</button>
+                      </div>
+                    </form>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+
+            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>

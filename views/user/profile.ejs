@@ -1,0 +1,291 @@
+<% layout('/layouts/boilerplate.ejs') %>
+
+    <head>
+        <style>
+            body {
+                font-family: 'Bona Nova', serif;
+            }
+
+            .main-search,
+            .main-search-btn {
+                display: none;
+            }
+
+            .map {
+                display: none;
+            }
+
+            .profile {
+                min-width: 340px;
+
+                display: flex;
+                flex-direction: column;
+                row-gap: 2rem;
+            }
+
+            .profile-cont {
+                display: flex;
+                flex: 1 !important;
+                height: 45rem;
+                column-gap: 4rem;
+                margin: auto;
+            }
+
+
+
+            .profile-pic {
+                width: 100%;
+                height: 33%;
+                box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+                display: flex;
+                align-items: center;
+                border-radius: 1.3rem;
+                padding-left: 0.8rem;
+            }
+
+            .profile-bottom {
+                width: 100%;
+                height: 65%;
+
+                padding: 1rem;
+                display: flex;
+                flex-direction: column;
+                row-gap: 1rem;
+                box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+
+                border-radius: 1.3rem;
+
+            }
+
+            .profile-bottom h3 {
+                font-size: 1.5rem;
+                font-weight: bold;
+                color: #333;
+                margin-bottom: 1rem;
+                border-bottom: 2px solid #ddd;
+                padding-bottom: 0.5rem;
+            }
+
+            .profile-bottom h4 {
+                margin: 0;
+                font-size: 1.2rem;
+                font-weight: bold;
+                color: #333;
+            }
+
+            .profile-bottom p {
+                margin: 0;
+                font-size: 1rem;
+                color: #666;
+            }
+
+            .profile-bottom .preference-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0.5rem 0;
+                border-bottom: 1px solid #eee;
+            }
+
+            .profile-bottom .preference-item:last-child {
+                border-bottom: none;
+            }
+
+            .profile-bottom .preference-item i {
+                margin-right: 1rem;
+                color: #555;
+            }
+
+            .profile-bottom .preference-item h4,
+            .profile-bottom .preference-item p {
+                flex: 1;
+            }
+            
+
+            .profile-circle {
+                width: 65%;
+                background-color: black;
+                font-size: 2.5rem;
+                font-weight: 600;
+                height: 77%;
+                border-radius: 50%;
+                color: white;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            
+            .f-info
+            {
+                display: none !important;
+            }
+            @media(max-width:770px) {
+                .profile-cont {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .profile-pic {
+                    height: 20rem;
+                }
+
+                .profile-circle {
+                    width: 55%;
+                }
+            }
+        </style>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    </head>
+
+    <body>
+        <% function formatUsername(username) { if (!username) return '' ; return username.charAt(0).toUpperCase() +
+            username.slice(1).toLowerCase(); } function displayPreference(preference) { return preference ? preference
+            : 'N/A' ; } %>
+
+<% function formatDate(dob) { let day=String(dob.getDate()).padStart(2, '0' ); let month=String(dob.getMonth() +
+1).padStart(2, '0' );} 
+%>
+
+<% function solve(field)
+{
+  if(displayPreference(field) === 'N/A')
+  {
+    return displayPreference(field);
+  }
+  else
+  {
+    return formatUsername(displayPreference(field));
+  }
+} %>
+
+
+            <div class="profile-cont mb-5 mt-3">
+                <div class="profile">
+                    <div class="profile-pic">
+                        <div
+                            style="width: 50%; display: flex; flex-direction: column; justify-content: space-evenly; align-items: center; height: 70%;">
+                            <div class="mb-3 profile-circle">
+                                <% if (user.username) { %>
+                                    <%= formatUsername(user.username)[0] %>
+                                        <% } else { %>
+                                            N/A
+                                            <% } %>
+                            </div>
+                            <h4
+                                style="width: 100%; height: 20%; text-align: center; display: flex; justify-content: center;">
+                                <%= solve(user.username) %>
+                            </h4>
+                        </div>
+                        <div style="width: 50%; text-align: center;"><span style="font-size: 1.2rem; font-weight: 800;">
+                                <%=diffInDays%>
+                            </span><br><span style="font-size: 0.8rem;">Days on Airbnb</span></div>
+                    </div>
+                    <div class="profile-bottom mb-4">
+                        <h3>Preferences</h3>
+                        <div class="preference-item">
+                            <i class="fas fa-bed"></i>
+                            <h4>Preferred Bed</h4>
+                            <p>
+                                <%= solve(user.p_bed) %>
+                            </p>
+                        </div>
+                        <div class="preference-item">
+                            <i class="fas fa-door-open"></i>
+                            <h4>Preferred Room</h4>
+                            <p>
+                                <%= solve(user.p_room) %>
+                            </p>
+                        </div>
+                        <div class="preference-item">
+                            <i class="fas fa-smoking"></i>
+                            <h4>Smoking Preference</h4>
+                            <p>
+                                <%= solve(user.preference) %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-info">
+                    <h3 style="font-weight: 900;">About &nbsp; <%= formatUsername(user.username) %>
+                    </h3>
+                    <form action="/edit-profile" method="get" style="margin-bottom: 4%;">
+                        <button type="submit" class="btn btn-outline-dark mt-4 mb-4"
+                            style="font-size: 0.8rem; font-weight: 600;">Edit profile</button>
+                    </form>
+
+                    <div class="profile-details">
+                        <div class="row" style="font-size: 1.05rem;">
+                            <div class="col-lg-6 col-12 mb-4 detail-item">
+                                <i class="fas fa-graduation-cap "></i>
+                                <span style="margin-left: 0.7rem; font-weight: 700;">Where I went to school : </span>
+                                <span>
+                                    <%= solve(user.city) %>
+                                </span>
+                            </div>
+                            <div class="col-lg-6 col-12 mb-4 detail-item">
+                                <i class="fas fa-briefcase"></i>
+                                <span style="margin-left: 0.7rem; font-weight: 700;">My work : </span>
+                                <span>
+                                    <%=solve(user.work)%>
+                                </span>
+                            </div>
+                            <div class="col-lg-6 col-12 mb-4 detail-item">
+                                <i class="fas fa-music"></i>
+                                <span style="margin-left: 0.7rem; font-weight: 700;">Favourite song : </span>
+                                <span>
+                                    <%=solve(user.fav_song)%>
+                                </span>
+                            </div>
+                            <div class="col-lg-6 col-12 mb-4 detail-item">
+                                <i class="fas fa-language"></i>
+                                <span style="margin-left: 0.7rem; font-weight: 700;">Speaks : </span>
+                                <span>
+                                    <%= solve(user.language)%>
+                                </span>
+                            </div>
+                            <div class="col-lg-6 col-12 mb-4 detail-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span style="margin-left: 0.7rem; font-weight: 700;">Date of Birth : </span>
+                                <span>
+                                    <%if(user.dob){%>
+                                    <%= formatDate(user.dob) %>
+                
+                                    <% } else { %>
+                                     N/A 
+                                    <%}%>
+                                </span> <!-- Replace with user's date of birth -->
+                            </div>
+                            <div class="col-lg-6 col-12 mb-4 detail-item">
+                                <i class="fas fa-phone"></i>
+                                <span style="margin-left: 0.7rem; font-weight: 700;">Phone Number : </span>
+                                <span>
+                                    <%= displayPreference(user.phoneno) %>
+                                </span> <!-- Replace with user's phone number -->
+                            </div>
+                            <div class="col-lg-6 col-12 mb-4 detail-item">
+                                <i class="fas fa-city"></i>
+                                <span style="margin-left: 0.7rem; font-weight: 700;">City : </span>
+                                <span>
+                                    <%= solve(user.city) %>
+                                </span> <!-- Replace with user's city -->
+                            </div>
+                            <div class="col-lg-6 col-12 mb-4 detail-item">
+                                <i class="fas fa-globe"></i>
+                                <span style="margin-left: 0.7rem; font-weight: 700;">Country : </span>
+                                <span>
+                                    <%= solve(user.country) %>
+                                </span> <!-- Replace with user's country -->
+                            </div>
+                            <div class="col-lg-6 col-12 mb-4 detail-item">
+                                <i class="fa fa-envelope"></i>
+                                <span style="margin-left: 0.7rem; font-weight: 700;">Email : </span>
+                                <span>
+                                    <%= displayPreference(user.email) %>
+                                </span> <!-- Replace with user's country -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    </body>

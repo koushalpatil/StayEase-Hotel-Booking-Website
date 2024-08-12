@@ -1,0 +1,222 @@
+<% layout('/layouts/boilerplate.ejs') %>
+<style>
+  .carousel-control-prev,
+  .carousel-control-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2rem;
+    height: 2rem;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+  }
+
+  .card:hover .carousel-control-prev,
+  .card:hover .carousel-control-next,
+  .carousel-control-prev:hover,
+  .carousel-control-next:hover {
+    opacity: 1;
+  }
+
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .scroll-indicator {
+    position: relative;
+  }
+
+  .scroll-indicator::after {
+    content: '›';
+    position: absolute;
+    right: -1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+    color: var(--black);
+    opacity: 0.7;
+  }
+
+  .scroll-indicator:hover::after {
+    opacity: 1;
+  }
+
+  /* Card styling */
+  .card {
+    border: none;
+  }
+
+  .carousel-indicators {
+    bottom: 10px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .carousel-indicators li {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.5);
+    margin: 3px;
+    border: none;
+    display: inline-block;
+  }
+
+  .carousel-indicators .active {
+    background-color: rgba(255, 255, 255, 0.75);
+  }
+
+  .map {
+    opacity: 1;
+  }
+
+  .heart {
+    position: relative;
+    width: 2rem;
+    font-size: 1.5rem;
+    color: white;
+    opacity: 0.7;
+    left: 89%;
+    top: 8%;
+    z-index: 3;
+  }
+
+  .heart:hover {
+    scale: 1.2;
+  }
+
+  .add-red {
+    color: red;
+  }
+
+  .main-search,
+  .main-search-btn {
+    display: none;
+  }
+
+  .map {
+    display: none;
+  }
+
+  @media (max-width: 990px) and (min-width: 770px) {
+    .heart {
+      left: 86%;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .heart {
+      left: 93%;
+    }
+  }
+
+  .empty-favorites {
+    text-align: center;
+    padding: 2rem;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-top: 2rem;
+  }
+
+  .empty-favorites p {
+    margin: 0.5rem 0;
+  }
+
+  .empty-favorites .btn {
+    margin-top: 1rem;
+    border-radius: 1.5rem;
+    background-color: #ff385c;
+    color: white;
+  }
+
+  .empty-favorites .btn:hover {
+    background-color: #e0245e;
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<body>
+  <h2 style="font-weight: 600;"><%= heading %></h2>
+  <div class="row row-cols-xl-4 row-cols-lg-3 row-cols-md-3 row-cols-sm-2 row-cols-xs-1">
+    <% for (let list of listings) { %>
+      <a href="/listings/<%= list._id %>" style="text-decoration: none;">
+        <div class="card" style="height: 27rem;">
+          <% if(currUser) { %>
+            <i class="fa-solid fa-heart heart" id="<%= list._id %>"></i>
+          <% } %>
+          <div id="carousel<%= list._id %>" class="carousel slide mb-2" style="height: 75%; border-radius: 1rem;">
+            <ol class="carousel-indicators">
+              <% for (let i = 0; i < list.image.url.length; i++) { %>
+                <li style="width: 6px; height: 6px;" data-bs-target="#carousel<%= list._id %>" data-bs-slide-to="<%= i %>" class="<%= i === 0 ? 'active' : '' %>"></li>
+              <% } %>
+            </ol>
+            <div class="carousel-inner" style="height: 100%; border-radius: 1rem;">
+              <% for (let i = 0; i < list.image.url.length; i++) { %>
+                <div class="carousel-item <%= i === 0 ? 'active' : '' %>" style="height: 100%; border-radius: 1rem;">
+                  <img src="<%= list.image.url[i] %>" class="d-block w-100" alt="Listing image" style="height: 100%; object-fit: cover; border-radius: 1rem;">
+                </div>
+              <% } %>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carousel<%= list._id %>" data-bs-slide="prev" style="margin-left: 0.4rem;">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carousel<%= list._id %>" data-bs-slide="next" style="margin-right: 0.4rem;">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title"><b><%= list.title %></b></h5>
+            <p class="card-text">&#x20b9; &nbsp;<%= list.price.toLocaleString("en-IN") %>/night + 18% GST</p>
+          </div>
+        </div>
+      </a>
+    <% } %>
+    <% if (!listings.length) { %>
+      <div class="empty-favorites" style="margin: auto; width: 30vw;">
+        <p><%= m1 %></p>
+        <p><%= m2 %></p>
+        <a href="/listings" class="btn">Explore Listings</a>
+      </div>
+    <% } %>
+  </div>
+  <script>
+    let hearts = document.querySelectorAll(".heart");
+let favourites = <%- JSON.stringify(favourites) %>;
+
+hearts.forEach(heart => {
+  if(favourites.includes(heart.id))
+  {
+    heart.classList.add("add-red");
+  }
+});
+
+hearts.forEach(heart => {
+
+heart.addEventListener("click", async(event) => {
+  event.preventDefault(); event.stopPropagation();
+  
+  try
+  {
+    heart.classList.toggle("add-red");
+  let response = await axios.post(`/favourites`,{id:event.target.id});
+  
+  }
+  catch(err){
+    console.log("error while api call to add favourites",err);
+  }
+});
+});
+  </script>
+</body>

@@ -1,0 +1,1651 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.4/main.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.4/main.min.css">
+<style>
+    .overline-class {
+        text-decoration: line-through solid black 1.5px;
+    }
+
+    .rating-bar {
+        height: 0.3rem;
+        margin-left: 0.5rem;
+        width: 7rem;
+        border-radius: 0.5rem;
+        background-color: rgb(183, 175, 175);
+    }
+
+    .bar-inside-rating {
+        width: 100%;
+        height: 0.3rem;
+        background-color: black;
+        border-radius: 0.5rem;
+    }
+
+    .modal-content {
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-header {
+        border-bottom: none;
+        background-color: #343a40;
+        color: #ffffff;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .margin
+    {
+        margin: auto;
+    }
+
+    .close {
+        background-color: #343a40;
+    }
+
+    .modal-header .close {
+        color: #ffffff;
+        opacity: 1;
+    }
+
+    .modal-title {
+        color: #ffffff;
+    }
+    .guest-fav
+    {
+        background-image: url("https://vectorified.com/image/leaf-vector-png-8.png");
+        
+        background-repeat: no-repeat;
+        background-size: contain; 
+        margin: auto;
+        display: flex;
+        background-position: center center;
+        align-items: center;
+        width: 400px;
+    }
+
+    .manage
+    {
+        width: 400px;
+        margin-left: 0 !important;
+        padding: 0 !important;
+        text-align: center;
+    }
+
+    @media(max-width:450px)
+    {
+        .guest-fav
+        {
+            width: 300px;
+        }
+        .manage
+        {
+            width: 300px;
+        }
+    }
+    
+
+    .modal-body {
+        padding: 20px;
+    }
+
+    .modal-footer {
+        border-top: none;
+
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+    .first-img
+    {
+        border-top-left-radius: 0.8rem !important; border-bottom-left-radius: 0.8rem !important;
+    }
+    .delete-btn
+    {
+        width: 7rem !important;
+    }
+    .reviews-modal-width
+    {
+        max-width: 45vw;
+    }
+    .search-review-modal
+    {
+        width: 15%; border: none; flex-grow: 1; height: 2.5rem; border-radius: 1.5rem; 
+    }
+    .input-search-modal
+    {
+        width: 60%; flex-grow: 3; border: none; height: 2.5rem; margin-right: 0.5rem;    padding-left: 1.5rem; border-radius: 1.5rem; 
+    }
+    @media(max-width:768px)
+    {
+        .delete-btn
+        {
+            width: 5rem !important;
+        }
+    }
+    @media(max-width:992px)
+    {
+        .first-img
+        {
+            border-radius: 0.8rem !important;
+        }
+        .reviews-modal-width
+        {
+        max-width: 70vw;
+        }
+    }
+    @media(max-width:650px)
+    {
+        .reviews-modal-width
+        {
+        max-width: 90vw;
+        }
+    }
+    @media(max-width:490px)
+    {
+        .reviews-modal-width
+        {
+        max-width: 100vw;
+        }
+        .search-review-modal
+        {
+            font-size: 0.7rem;
+            width: 8%;
+        }
+        .input-search-modal
+        {
+            width: 40%;
+        }
+
+    }
+    .show-img-container  :hover
+    {
+        opacity: 0.9;
+    }
+
+
+    .fc-disabled-date {
+      
+      text-decoration: line-through;
+      opacity: 0.5;
+    }
+
+    #calendar {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 0 10px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+
+/* Toolbar and buttons styling */
+.fc-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.fc-toolbar h2 {
+  font-size: 1.5em;
+  margin: 0;
+}
+
+.fc-button {
+  background: #007bff;
+  border: none;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.fc-button:hover {
+  background: #0056b3;
+}
+
+.fc-button:disabled {
+  background: #ddd;
+  cursor: not-allowed;
+}
+
+.fc-button-group > .fc-button {
+  margin-left: 0;
+  border-radius: 0;
+}
+
+.fc-button-group > .fc-button:first-child {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.fc-button-group > .fc-button:last-child {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+/* Day numbers styling */
+.fc-daygrid-day-number {
+  color: black !important;
+  font-weight: 500;
+  text-decoration: none !important; /* Ensure no underline */
+  width: 2.5rem;
+  height: 2.5rem;
+  text-align: center;
+  
+}
+
+.fc-daygrid-day-frame{
+
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  width: 100% !important;
+
+
+  
+}
+
+
+
+.fc-daygrid-day-number:hover
+{
+    border-radius: 50%;
+    border: 1px solid black;
+}
+
+/* Day names styling */
+.fc-col-header-cell-cushion {
+  color: grey !important;
+  text-decoration: none !important; /* Ensure no underline */
+}
+
+/* Disabled days styling */
+.fc-day-disabled {
+  background: #f8f9fa;
+  color: #ddd;
+}
+
+/* Custom Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 4px; /* Thinner width */
+  height: 4px; /* Thinner height */
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;
+}
+
+.fc-selected-date {
+      background-color: #add8e6; /* Light Blue */
+      border-radius: 8px; /* Example border radius */
+}
+
+.fc-unselectable {
+      pointer-events: none;
+      user-select: none;
+      
+}
+
+.fc-disabled-date {
+      opacity: 0.5;
+      text-decoration: overline;
+}
+    
+
+
+
+    .reservation-card {
+       
+      border-radius: 10px;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+      min-height: 550px;
+    }
+    .reservation-card h1 {
+      font-size: 24px;
+      margin: 0 0 10px;
+    }
+    .reservation-card .price {
+      font-size: 18px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+    .reservation-card .dates {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .reservation-card .dates div {
+      width: 48%;
+      padding: 10px;
+     
+      border-radius: 5px;
+      text-align: center;
+      font-size: 14px;
+      
+    }
+    .reservation-card .guests {
+      margin-bottom: 20px;
+    }
+    .reservation-card .reserve-btn {
+      display: block;
+      width: 100%;
+      background-color: #ff5a5f;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .reservation-card .reserve-btn:hover {
+      background-color: #e14d50;
+    }
+    .reservation-card .note {
+      font-size: 12px;
+      color: #777;
+      text-align: center;
+      margin: 10px 0;
+    }
+    .reservation-card .breakdown {
+      font-size: 14px;
+      color: #333;
+    }
+    .reservation-card .breakdown div {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+    .reservation-card .total {
+      display: flex;
+      justify-content: space-between;
+      font-weight: bold;
+      font-size: 16px;
+      margin-top: 10px;
+      border-top: 1px solid #ccc;
+      padding-top: 10px;
+    }
+    .guests-dropdown {
+      display: none;
+      position: absolute;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 10px;
+      width: 300px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      z-index: 1;
+    }
+    .guests-dropdown div {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      align-items: center;
+    }
+    .guests-dropdown div span {
+      font-size: 14px;
+    }
+    .guests-dropdown div input {
+      width: 30px;
+      text-align: center;
+    }
+    .close-btn {
+      text-align: right;
+      margin-top: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      color: #007bff;
+    }   
+        
+</style>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js'></script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const calendarEl = document.getElementById('calendar');
+      const today = new Date();
+      const sixMonthsLater = new Date(today.getFullYear(), today.getMonth() + 6, today.getDate());
+
+      let selectedCheckInDate = null;
+      let selectedCheckOutDate = null;
+
+      const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        initialDate: today,
+        validRange: {
+          start: today,
+          end: sixMonthsLater
+        },
+        datesSet: function(info) {
+            const days = calendarEl.getElementsByClassName('fc-daygrid-day');
+
+            
+
+
+
+let in_arr = [];
+let out_arr = [];
+
+let bookings = (<%-JSON.stringify(data.bookings)%>);
+
+
+for(let booking of bookings)
+{
+    in_arr.push(booking.checkInDate);
+    out_arr.push(booking.checkOutDate);
+}
+
+
+console.log("check in dates from show.ejs - ",in_arr);
+console.log("check out dates from show.ejs - ",out_arr);
+
+for(let day of days)
+{
+    
+    for(let i=0;i<(in_arr.length);i++)
+    {
+        if(day.getAttribute('data-date') >= in_arr[i] && day.getAttribute('data-date')< out_arr[i] )
+    {
+        console.log(day.getAttribute('data-date'));
+        day.classList.add("fc-unselectable");
+        day.classList.add("fc-disabled-date");
+    }
+    }
+    
+    
+}
+
+        },
+        dateClick: function(info) {
+          const clickedDate = new Date(info.dateStr);
+
+          if (info.dayEl.classList.contains('fc-unselectable')) {
+            return;
+          }
+
+          // Clear previous selections if both check-in and check-out are selected
+          if (selectedCheckInDate && selectedCheckOutDate) {
+            selectedCheckInDate.classList.remove('fc-selected-date');
+            selectedCheckOutDate.classList.remove('fc-selected-date');
+            // Clear disabled dates
+            const days = calendarEl.getElementsByClassName('fc-daygrid-day');
+            for (let day of days) {
+              day.classList.remove('fc-disabled-date');
+              day.classList.remove('fc-unselectable');
+            }
+            selectedCheckInDate = null;
+            selectedCheckOutDate = null;
+          }
+
+          // Set new selection
+          if (!selectedCheckInDate || (selectedCheckInDate && selectedCheckOutDate)) {
+            selectedCheckInDate = info.dayEl;
+            selectedCheckInDate.classList.add('fc-selected-date');
+            
+            selectedCheckOutDate = null;
+
+            // Disable dates before check-in
+            const days = calendarEl.getElementsByClassName('fc-daygrid-day');
+            for (let day of days) {
+              const date = new Date(day.getAttribute('data-date'));
+              if (date < clickedDate) {
+                day.classList.add('fc-disabled-date', 'fc-unselectable');
+              }
+            }
+          } else {
+            selectedCheckOutDate = info.dayEl;
+            selectedCheckOutDate.classList.add('fc-selected-date');
+            selectedCheckOutDate.style.borderRadius = '8px'; // Set border radius
+          }
+
+
+          if(selectedCheckInDate && selectedCheckOutDate)
+          {
+            const checkInDate = new Date(selectedCheckInDate.getAttribute('data-date'));
+            const checkOutDate = new Date(selectedCheckOutDate.getAttribute('data-date'));
+            const timeDifference = checkOutDate - checkInDate;
+            const dayDifference = timeDifference / (1000 * 60 * 60 * 24);
+            console.log("Number of days between check-in and check-out:", dayDifference);
+
+            document.querySelector(".no_of_nights").textContent = `${dayDifference} - nights in <%=data.location%>`;
+
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            const formattedCheckInDate = new Intl.DateTimeFormat('en-US', options).format(checkInDate);
+            const formattedCheckOutDate = new Intl.DateTimeFormat('en-US', options).format(checkOutDate);
+
+            document.querySelector(".stay").textContent = `${formattedCheckInDate} - ${formattedCheckOutDate}`;
+
+            function formatDateToYYYYMMDD(date) {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = ('0' + (d.getMonth() + 1)).slice(-2);
+    const day = ('0' + d.getDate()).slice(-2);
+    return `${day}-${month}-${year}`;
+  }
+            document.getElementById('check-in-date').value = formatDateToYYYYMMDD(checkInDate);
+            document.getElementById('check-out-date').value = formatDateToYYYYMMDD(checkOutDate);
+
+            document.querySelector(".total-exp").textContent = `₹<%=data.price.toLocaleString("en-IN")%> x ${dayDifference} nights`;
+            let price = <%= JSON.stringify(data.price) %>;
+            let total = price*dayDifference;
+
+
+            document.querySelector(".total-bill").textContent = `₹${total.toLocaleString("en-IN")}`;
+            
+            document.querySelector(".cleaning-fee").textContent = '₹500';
+            let gst = (total*18)/100;
+            document.querySelector(".gst").textContent = `₹${gst.toLocaleString("en-IN")}`;
+            let final = total+gst+500;
+            document.querySelector(".final-bill").textContent = `₹${final.toLocaleString("en-IN")}`;
+            
+          }
+        }
+      });
+      calendar.render();
+    });
+  </script>
+
+
+  
+
+<%layout('/layouts/boilerplate.ejs')%>
+
+    <body>
+        <div class="card col-lg-11 col-12 mt-3" style="margin: auto; ">
+            <div class="row">
+                <div class="col-lg-11 col-12" style="margin: auto; height: 100%;">
+                    <h2 style="margin-bottom: 4%;">
+                        <%=data.title%>
+                    </h2>
+                    <a href="/listings/<%= data._id %>/images">
+                        <div class="show-img-container col-12 mb-3" style="height: 50vh;  display: flex;">
+                            <div class="col-lg-6 col-12 p-1 "><img src="<%=data.image.url[0]%>" alt="listing-img"
+                                    style="width: 100%; height: 100%; object-fit: cover; " class="first-img">
+                            </div>
+                            <div class="col-lg-3 d-none d-lg-block p-1">
+                                <img src="<%=data.image.url[1]%>" alt="listing-img"
+                                    style="width: 100%; height: 50%; object-fit: cover; padding-bottom: 0.5rem;">
+                                <img src="<%=data.image.url[2]%>" alt="listing-img"
+                                    style="width: 100%; height: 50%; object-fit: cover;">
+                            </div>
+                            <div class="col-lg-3 d-none d-lg-block p-1">
+                                <img src="<%=data.image.url[3]%>" alt="listing-img"
+                                    style="width: 100%; height: 50%; object-fit: cover; padding-bottom: 0.5rem ;border-top-right-radius: 0.8rem;">
+                                <img src="<%=data.image.url[4]%>" alt="listing-img"
+                                    style="width: 100%; height: 50%; object-fit: cover;border-bottom-right-radius: 0.8rem;">
+                            </div>
+                        </div>
+                    </a>
+                    <div class="card-body">
+                        <div class="card-text">
+                            <div class="mb-4">
+                                <h4 style="font-weight: bold;">Entire villa in <%= data.location %>,<%= data.country %></h4>
+                                <p style="color: rgb(101, 96, 96);"><span style="margin-right: 0.6rem;"><%= data.max_guest %> - guests</span>  <span style="margin-right: 0.6rem;"><%= data.bedrooms %> - bedrooms</span><span style="margin-right: 0.6rem;"><%= data.beds %> - beds</span> <span style="margin-right: 0.6rem;"><%= data.bathrooms %> - bathrooms</span> </p>
+                            </div>
+                            <p>
+                                <%= data.description %>
+                            </p>
+                            <p>&#x20b9;  <%=data.price.toLocaleString("en-IN")%>/night</p>
+                            <p>
+                                <%=data.location%>
+                            </p>
+                            <p>
+                                <%=data.country%>
+                            </p>
+                        </div>
+                    </div><br>
+    
+                    <%if(currUser && data.owner._id.equals(currUser._id)) {%>
+                        <div class="show-btns" style="margin-bottom: 2rem;">
+                            <form action="/listings/<%=data._id%>/edit" style="margin-right: 5%;">
+                                <button class="btn btn-primary show-edit-btn">Edit</button>
+                            </form>
+                            <form action="/listings/<%=data._id%>?_method=DELETE" method="post">
+                                <button class="btn btn-primary show-delete-btn">Delete</button>
+                            </form>
+                        </div>
+                        <% } %>
+                </div>
+            </div>
+            <div class="col-lg-11 col-12 mt-4 mb-4" style="margin: auto;">
+                <hr style="border: none; border-top: 1.5px solid black;">
+            </div>
+        <div class="col-lg-11 col-12" style="margin: auto;">
+            <div class="row">
+                <div class="col-lg-7 col-12">
+                    <div class="row">
+                        <div class="col-12 mt-3 mb-3" style="margin: auto;">
+                            <h2 class="mb-4">What this place offers</h2>
+                            <div class="row" style="font-size: 1.1rem;">
+                                <div class="col-6 mb-4">
+                                    <i class="fa-solid fa-tree" class="margin-right:2rem"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Garden view</span>
+                                </div>
+                                <div class="col-6 mb-4">
+                                    <i class="fa-solid fa-wifi"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Wifi</span>
+                                </div>
+                                <div class="col-6 mb-4">
+                                    <i class="fa-solid fa-square-parking"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Parking</span>
+                                </div>
+                                <div class="col-6 mb-4">
+                                    <i class="fa-solid fa-person-swimming"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Private pool</span>
+                                </div>
+                                <div class="col-6 mb-4">
+                                    <i class="fa-solid fa-ruler-combined"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Essential</span>
+                                </div>
+                                <div class="col-6 mb-4">
+                                    <i class="fa-solid fa-water"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Hot water</span>
+                                </div>
+                                <div class="col-6 mb-4">
+                                    <i class="fa-solid fa-tv"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Television</span>
+                                </div>
+                                <div class="col-6 mb-4">
+                                    <i class="fa-solid fa-kitchen-set"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Kitchen</span>
+                                </div>
+                                <div class="col-6 mb-4">
+                                    <i class="fa-solid fa-camera"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">CCTV</span>
+                                </div>
+                                <div class="col-6 mb-4">
+                                    <i class="fa-solid fa-bottle-water"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Mineral water</span>
+                                </div>
+                                <div class="col-6 mb-4">
+                                    <i class="fa-solid fa-snowflake"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">AC</span>
+                                </div>
+                                <div class="col-6 mb-4">
+                                    <i class="fa-solid fa-utensils"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Dining table</span>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-outline-dark mt-2" data-toggle="modal" data-target="#amenitiesModal"
+                                style="font-weight: 600; height: 3rem;">Show all 34 amenities</button>
+                        </div>
+                       
+                            <div class="col-12  mt-4 mb-4" style="margin: auto;">
+                                <hr style="border: none; border-top: 1.5px solid black;">
+                            </div>
+                            <div class="reviews col-12  mt-3 mb-3" style="margin: auto;">
+                                <div class="row">
+                                    <h4 style="font-weight: 600;" class="no_of_nights">Select check-in date</h4>
+                                    <p class="stay">Add your travel dates for exact pricing</p>
+                                    <!-- CALENDAR -->
+                                    <div class="col-10">
+                                        <div id='calendar'></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                    </div>
+                </div>
+                <div class="col-lg-5 col-12" style="border: 2px solid green; padding-top: 2rem; padding-bottom: 2rem;">
+                    <form method="post" action="/verify/<%= data._id %>" style="height: 100%;">
+                    <div class="reservation-card " style="position: sticky; top:15%; ">
+                        <h5 style="font-weight: 700;" class="mb-4">₹ <%= data.price.toLocaleString('en-IN') %> <span class="night">night</span></h5>
+                        
+                        <div class="guest-cont mb-4" style="display: flex;  flex-direction: column; box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px; border-radius: 0.5rem;">
+                            <div class="dates">
+                                <div class="check-in" style="text-align: start; width: 50%; box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;">
+                                  <strong style="font-size: 0.7rem; ">CHECK-IN</strong><br>
+                                  <input  style="border: none; font-size: 0.9rem;" id="check-in-date" name="checkIn" readonly></input>
+                                </div>
+                                <div class="check-out" style="text-align: start; width: 50%; box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;">
+                                  <strong style="font-size: 0.7rem; ">CHECK-OUT</strong><br>
+                                  <input   style="border: none; font-size: 0.9rem;" name="checkOut" id="check-out-date" readonly></input>
+                                </div>
+                            </div>
+                              <div class="guests" style="padding-left: 0.5rem;">
+                                <strong style="font-size: 0.7rem;">GUESTS</strong><br>
+                                <button id="guests-btn" type="button" style="border: none; display: flex; justify-content: space-between; padding: 0.5rem; background-color: #f9f9f9; width: 100%; text-align: start;"><span>2 guest, 1 infant</span><i class="fa-solid fa-angle-down"></i></button>
+                                <div class="guests-dropdown" id="guests-dropdown">
+                                  <div>
+                                    <span>Adults</span>
+                                    <div>
+                                      <button class="minus-btn" style="border: none;" type="button">-</button>
+                                      <input type="text" value="1" style="border: none;" readonly>
+                                      <button class="plus-btn" style="border: none;" type="button">+</button>
+                                    </div>
+                                  </div>
+                                  <div>
+                                    <span>Children</span>
+                                    <div>
+                                      <button class="minus-btn" style="border: none;" type="button">-</button>
+                                      <input type="text" value="1" style="border: none;" readonly>
+                                      <button class="plus-btn" style="border: none;" type="button">+</button>
+                                    </div>
+                                  </div>
+                                  <div>
+                                    <span>Infants</span>
+                                    <div>
+                                      <button class="minus-btn infant-minus" style="border: none;" type="button">-</button>
+                                      <input type="text" value="1" style="border: none;" readonly>
+                                      <button class="plus-btn infant-plus" style="border: none;" type="button">+</button>
+                                    </div>
+                                  </div>
+                                  <div>
+                                    <span>Pets</span>
+                                    <div>
+                                      <button class="minus-btn" style="border: none; opacity: 0.5;" type="button">-</button>
+                                      <input type="text" value="0" style="border: none;" readonly>
+                                      <button class="plus-btn" style="border: none; opacity: 0.5;" type="button">+</button>
+                                    </div>
+                                  </div>
+                                  <div class="close-btn">Close</div>
+                               </div>
+                            
+                          </div>
+                        </div>
+
+
+                        
+                            
+                        
+                        <div class="note mb-4">You won't be charged yet</div>
+                        <div class="breakdown mb-3">
+                          <div><span class="total-exp">₹ <%= data.price.toLocaleString('en-IN') %> x 0 night</span><span class="total-bill">₹ 0</span></div>
+                          <div><span>Cleaning fee</span><span class="cleaning-fee">₹0</span></div>
+                          <div><span>GST (18%) </span><span class="gst">₹0</span></div>
+                        </div>
+                        <div class="total mb-5">
+                          <span>Total after taxes</span>
+                          <span class="final-bill">₹0</span>
+                          
+                        </div>
+                        <button class="reserve-btn">Reserve</button>
+                      </div>
+                    </form>
+                </div>
+            </div>  
+        </div>
+        <div class="modal fade" id="reviewsModal" tabindex="-1" aria-labelledby="reviewsModalLabel"
+            aria-hidden="true" >
+            <div class="modal-dialog modal-dialog-centered  modal-dialog-scrollable reviews-modal-width" >
+                <div class="modal-content"> 
+                    <div class="modal-header" style=" display:flex; flex-direction: column; row-gap: 1rem;" >
+                        <div style="display: flex; justify-content: space-between; width: 100%;">
+                            <h4><%= data.reviews.length %> - Reviews</h4>
+                            <div style="display: flex; column-gap: 1rem; ">
+                                <form action="#">
+                                    <select name="sort" id="sort" style="height: 2rem; font-size: 0.8rem;   border-radius: 1.5rem; border: none;">
+                                        <option value="recent">Most recent</option>
+                                        <option value="increasing">Highest Rated</option>
+                                        <option value="decreasing">Lowest Rated</option> 
+                                    </select>
+                                </form>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="width: 1rem;  height: 1.7rem;  border:none; display: flex; justify-content: center;align-items: center;">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </div>
+                            <div style="display: flex; width: 100%;" >
+                                <input type="text" class="input-search-modal"  placeholder="Search reviews">
+                            <!-- <button class="search-review-modal" > <i class="fa-solid fa-magnifying-glass" ></i> Search</button> -->
+                            </div>
+                            
+                    </div>
+                    <div class="modal-body" id="reviewsContainer">
+                        <% for(let review of data.reviews) { %>
+                            <div class="col-12 mb-4 review-item">
+                                <div class="card  h-100 "
+                                    style="padding: 0.5rem;box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;">
+                                    <div
+                                        class="card-body d-flex flex-column justify-content-between mb-3 " >
+                                        <div class="review-card-header  d-flex"
+                                            style="height: 4rem;">
+                                            <div
+                                                class="review-img d-flex align-items-center justify-content-center me-2" style="border-radius: 50%; width: 3.5rem; height: 3.5rem; font-size: 1.5rem; font-weight: 600; background-color: black; color: white;">
+                                                <%= review.author.username[0].toUpperCase() %>
+                                            </div>
+                                            <div
+                                                class="review-sub-header d-flex flex-column ml-2">
+                                                <span style="font-weight: bold; margin-bottom: 0.2rem;">
+                                                    <%=review.author.username%>
+                                                </span>
+                                                <span class="modal-id-<%= review._id %>" style="font-size: 0.8rem;"></span>
+                                            </div>
+                                           
+                                            <%if(currUser && currUser._id.equals(review.author._id)){%>
+                                            <div class="flex-grow-1 d-flex  justify-content-end " style="margin-right: 0.2rem; cursor: pointer;">
+                                                
+                                                <div class="dropdown">
+                                                    <i class="fa-solid fa-ellipsis-vertical" id="dropdownMenuButton<%= review._id %>" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton<%= review._id %>">
+                                                        <li><span class="dropdown-item  edit-review-modal" style="cursor: pointer;" data-toggle="modal" data-target="#editModal" id="<%= review._id %>">Edit</span></li>
+                                                        <li><form class="dropdown-item w-100"  action="/listings/<%=data._id%>/reviews/<%=review._id%>?_method=DELETE" method="post"><button style="border: none; text-align: left; width: 100%; background: none; padding: 0%;">Delete</button></form></li>    
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <% } %>
+                                        </div>
+                                        <div
+                                            class="review-card-rating d-flex align-items-center mt-2 h-20 mb-2">
+                                            <p class="starability-result card-text h-5" style="color: black !important;"
+                                                data-rating="<%=review.rating%>"
+                                                >
+                                            </p>
+                                        </div>
+                                        <div class="review-card-comment mt-2 h-50">
+                                            <p class="card-text modal-comment modal-comment-<%= review._id %>">
+                                                <%=review.comment%>
+                                            </p>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                            <% } %>
+                    </div>
+                    <div class="modal-footer"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal fade" id="amenitiesModal" tabindex="-1" aria-labelledby="amenitiesModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered  modal-dialog-scrollable ">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="amenitiesModalLabel">What this place offers</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div class="row" style="font-size: 1.1rem;">
+                                <!-- Garden View -->
+                                <div class="col-12 border-bottom pb-3 mb-4">
+                                    <i class="fa-solid fa-tree"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Garden view</span>
+                                </div>
+                                <div class="col-12 border-bottom pb-3  mb-4">
+                                    <i class="fa-solid fa-person-swimming"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Private pool</span>
+                                </div>
+                                <div class="col-12 border-bottom pb-3 mb-4">
+                                    <i class="fa-solid fa-bottle-water"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Mineral water</span>
+                                </div>
+                                <!-- Bathtub -->
+                                <div class="col-12 border-bottom pb-3 mb-4">
+                                    <i class="fa-solid fa-bath"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Bathtub</span>
+                                </div>
+                                <!-- Hot Water -->
+                                <div class="col-12 border-bottom pb-3 mb-4">
+                                    <i class="fa-solid fa-water"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Hot water</span>
+                                </div>
+                                <div class="col-12 border-bottom pb-3  mb-4">
+                                    <i class="fa-solid fa-kitchen-set"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Kitchen</span>
+                                </div>
+                                <!-- Essentials -->
+                                <div class="col-12 border-bottom pb-3 mb-4">
+                                    <i class="fa-solid fa-box"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Essential</span>
+                                </div>
+                                <!-- Extra Pillows and Blankets -->
+                                <div class="col-12 mb-4  border-bottom pb-3">
+                                    <i class="fa-solid fa-bed"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Extra pillows</span>
+                                </div>
+                                <!-- Iron -->
+                                <div class="col-12 border-bottom pb-3 mb-4">
+                                    <i class="fa-solid fa-iron"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Iron</span>
+                                </div>
+                                <!-- Wardrobe -->
+                                <div class="col-12 border-bottom pb-3 mb-4">
+                                    <i class="fa-solid fa-wardrobe"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Wardrobe</span>
+                                </div>
+                                
+                                <!-- Sound System -->
+                                <div class="col-12 border-bottom pb-3 mb-4">
+                                    <i class="fa-solid fa-music"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Sound system</span>
+                                </div>
+                                <!-- Children’s Tableware -->
+                                <div class="col-12 border-bottom pb-3 mb-4">
+                                    <i class="fa-solid fa-utensils"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Children’s tableware</span>
+                                </div>
+                                <!-- Board Games -->
+                                <div class="col-12 border-bottom pb-3 mb-4">
+                                    <i class="fa-solid fa-chess"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Board games</span>
+                                </div>
+                                <!-- Outdoor Playground -->
+                                <div class="col-12 border-bottom pb-3 mb-4">
+                                    <i class="fa-solid fa-playground"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Outdoor playground</span>
+                                </div>
+                                <!-- AC – Split-type Ductless System -->
+                                <div class="col-12 border-bottom pb-3 mb-4">
+                                    <i class="fa-solid fa-snowflake"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">AC</span>
+                                </div>
+                                <div class="col-12 border-bottom pb-3  mb-4">
+                                    <i class="fa-solid fa-utensils"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Dining table</span>
+                                </div>
+                                <!-- Ceiling Fan -->
+                                <div class="col-12 border-bottom pb-3 mb-4">
+                                    <i class="fa-solid fa-fan"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Ceiling fan</span>
+                                </div>
+                                <!-- Exterior Security Cameras -->
+                                <div class="col-12 border-bottom pb-3 mb-4">
+                                    <i class="fa-solid fa-video"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">CCTV</span>
+                                </div>
+                                <div class="col-12  border-bottom pb-3 mb-4">
+                                    <i class="fa-solid fa-tv"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Television</span>
+                                </div>
+                                <!-- Fire Extinguisher -->
+                                <div class="col-12 border-bottom pb-3 mb-4">
+                                    <i class="fa-solid fa-fire-extinguisher"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Fire extinguisher</span>
+                                </div>
+                                <!-- First Aid Kit -->
+                                <div class="col-12 border-bottom pb-3 mb-4">
+                                    <i class="fa-solid fa-kit-medical"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">First aid kit</span>
+                                </div>
+                                <!-- Wifi -->
+                                <div class="col-12 border-bottom pb-3 mb-4">
+                                    <i class="fa-solid fa-wifi"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Wifi</span>
+                                </div>
+                                <!-- Dedicated Workspace -->
+                                <div class="col-12 border-bottom pb-3 mb-4">
+                                    <i class="fa-solid fa-laptop"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Dedicated workspace</span>
+                                </div>
+                                <!-- Fridge -->
+                                <div class="col-12 border-bottom pb-3 mb-4">
+                                    <i class="fa-solid fa-refrigerator"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Fridge</span>
+                                </div>
+                                <!-- Microwave -->
+                                <div class="col-12 border-bottom pb-3 mb-4">
+                                    <i class="fa-solid fa-microwave"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Microwave</span>
+                                </div>
+                                <!-- Dishes and Cutlery -->
+                                <div class="col-12 border-bottom pb-3 mb-4">
+                                    <i class="fa-solid fa-utensils"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Dishes and cutlery</span>
+                                </div>
+                                <!-- Bowls, Chopsticks, Plates, Cups, etc. -->
+                                
+                                <!-- Oven -->
+                                <div class="col-12 border-bottom pb-3 mb-4">
+                                    <i class="fa-solid fa-oven"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Oven</span>
+                                </div>
+                                <!-- Dining Table -->
+                                <div class="col-12 border-bottom pb-3 mb-4">
+                                    <i class="fa-solid fa-table"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Dining table</span>
+                                </div>
+                                <!-- Private Patio or Balcony -->
+                                <div class="col-12 border-bottom pb-3 mb-4">
+                                    <i class="fa-solid fa-balcony"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Private patio or balcony</span>
+                                </div>
+                                <!-- Private Back Garden -->
+                                
+                                <!-- Firepit -->
+                                <div class="col-12 border-bottom pb-3 mb-4">
+                                    <i class="fa-solid fa-fire"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Firepit</span>
+                                </div>
+                                <!-- Outdoor Furniture -->
+                                <div class="col-12 border-bottom pb-3 mb-4">
+                                    <i class="fa-solid fa-chair"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Outdoor furniture</span>
+                                </div>
+                                <!-- BBQ Grill -->
+                                <div class="col-12 border-bottom pb-3 mb-4">
+                                    <i class="fa-solid fa-grill"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">BBQ grill</span>
+                                </div>
+                                <!-- Free Parking on Premises -->
+                                <div class="col-12 border-bottom pb-3 mb-4">
+                                    <i class="fa-solid fa-square-parking"></i>
+                                    <span class="icon-name" style="margin-left: 0.8rem;">Parking</span>
+                                </div>
+                                
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-11 col-12  mt-4 mb-4" style="margin: auto; ">
+            <hr style="border: none; border-top: 1.5px solid black;">
+        </div>
+
+        <div class="col-lg-11 col-12  mt-4 mb-4" style="margin: auto;">
+            <h4 class="mb-4" style="font-weight: bold;">Where you'll sleep</h4>
+            <div class="row" style="display: flex; justify-content: space-between; margin: auto;">
+                <div class="col-lg-3 m-3 col-md-5 col-sm-5 col-10" style="padding-left: 2%; border-radius: 0.5rem; box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px; height: 12rem; display: flex; flex-direction: column; justify-content:center; ;">
+                    <i class="fa-solid fa-bed" style="font-size: 1.4rem;"></i>
+                    <span class="mt-3 mb-4" style="font-size: 1.2rem; font-weight:bold; ">Bedroom-1</span>
+                    <span><%= data.king %> King beds</span>
+                </div>
+                <div class="col-lg-3 m-3 col-md-5 col-sm-5 col-10" style="padding-left: 2%; border-radius: 0.5rem; box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px; height: 12rem; display: flex; flex-direction: column; justify-content:center; ;">
+                    <i class="fa-solid fa-bed" style="font-size: 1.4rem;"></i>
+                    <span class="mt-3 mb-4"style="font-size: 1.2rem; font-weight:bold; ">Bedroom-2</span>
+                    <span><%= data.queen %> Queen beds</span>
+                </div>
+                <div class="col-lg-3 m-3 col-md-5 col-sm-5 col-10" style="padding-left: 2%; border-radius: 0.5rem; box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px; height: 12rem; display: flex; flex-direction: column; justify-content:center; ;">
+                    <i class="fa-solid fa-bed" style="font-size: 1.4rem;"></i>
+                    <span class="mt-3 mb-4"style="font-size: 1.2rem; font-weight:bold; ">Bedroom-3</span>
+                    <span><%= data.twin %> Twin beds</span>
+                </div>
+            </div>
+        </div>
+
+        <%if(data.rating >= 4.5 && data.reviews.length > 5){%>
+        <div class="col-lg-11 col-12  mt-4 mb-4" style="margin: auto; ">
+            <hr style="border: none; border-top: 1.5px solid black;">
+        </div>
+        <div class="col-lg-11 col-12  mt-4 mb-4" style="margin: auto;">
+            <div class="row" style="margin: auto; display: flex; flex-direction: column; align-items: center;">
+                <div class="col-12 mb-3 guest-fav" style=" height: 160px; position: relative;  font-size: 3rem;">
+                    <span style="position: absolute; left: 40%; font-weight: bold;"><%= data.rating %></span>
+                </div>
+                <h4 class="manage" style="font-weight: 600;">Guest Favourite</h4>
+                <p class="manage">One of the most loved homes on Airbnb based on ratings, reviews, and reliability</p>
+            </div>
+        </div>
+        <%}%>
+
+
+        
+
+                <%if(currUser){%>
+                    <div class="col-lg-11 col-12  mt-4 mb-4" style="margin: auto;">
+                        <hr style="border: none; border-top: 1.5px solid black;">
+                    </div>
+                    <%}%>
+                        <div class="reviews col-lg-11 col-12  mt-3 mb-3" style="margin: auto;">
+                            <%if(currUser){%>
+                                <form action="/listings/<%= data._id %>/reviews" method="post" class="needs-validation"
+                                    novalidate>
+                                    <h4 class="mb-4">Leave a Review</h4>
+                                    <div class="mb-3">
+                                        <label for="rating">Rating:</label>
+                                        <fieldset class="starability-slot">
+                                            <input type="radio" id="no-rate" class="input-no-rate" name="rating"
+                                                value="1" checked aria-label="No rating." />
+                                            <input type="radio" id="first-rate1" name="rating" value="1" />
+                                            <label for="first-rate1" title="Terrible">1 star</label>
+                                            <input type="radio" id="first-rate2" name="rating" value="2" />
+                                            <label for="first-rate2" title="Not good">2 stars</label>
+                                            <input type="radio" id="first-rate3" name="rating" value="3" />
+                                            <label for="first-rate3" title="Average">3 stars</label>
+                                            <input type="radio" id="first-rate4" name="rating" value="4" />
+                                            <label for="first-rate4" title="Very good">4 stars</label>
+                                            <input type="radio" id="first-rate5" name="rating" value="5" />
+                                            <label for="first-rate5" title="Amazing">5 stars</label>
+                                        </fieldset>
+                                    </div>
+                                    <div class="mb-3 col-lg-8">
+                                        <label for="comment" class="mb-2">Comment:</label>
+                                        <textarea name="comment" id="comment" class="form-control" required></textarea>
+                                        <div class="invalid-feedback">We value your input. Please leave a comment.</div>
+                                        <div class="valid-feedback">Your feedback helps us improve. Thanks!</div>
+                                    </div>
+                                    <button class="btn btn-outline-dark mt-2 mb-3">Submit</button>
+                                </form>
+                                <%}%>
+
+                        </div>
+                        <%if(data.reviews.length){%>
+                            <div class=" col-lg-11 col-12  mt-4 mb-4" style="margin: auto;">
+                                <hr style="border: none; border-top: 1.5px solid black;">
+                            </div>
+                            <div class="reviews col-lg-11 col-12  mt-3 mb-3" style="margin: auto;">
+                                <div class="row">
+                                    <div class="col-sm-5 col-12 mb-4" style="display: flex; align-items: center; ">
+                                        <i class="fa-solid fa-star" style="font-size: 1.5rem;"></i><span class="avg-rating"
+                                            style="font-size: 1.5rem; margin-left: 0.3rem; font-weight: 700;"><%= data.rating %></span><span
+                                            style="font-size: 1.5rem; font-weight: 700; margin-left: 0.5rem; margin-right: 0.3rem;">(
+                                            <%=data.reviews.length%>-reviews)</span>
+                                    </div>
+                                    <div class="col-sm-5 col-12  ">
+                                        <p>Overall Rating</p>
+                                        <div class="mb-2" style="display: flex; align-items: center;"><span>5</span>
+                                            <div class="rating-bar">
+                                                <div class="bar-inside-rating"></div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-2" style="display: flex; align-items: center;"><span>4</span>
+                                            <div class="rating-bar">
+                                                <div class="bar-inside-rating"></div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-2" style="display: flex; align-items: center;"><span>3</span>
+                                            <div class="rating-bar">
+                                                <div class="bar-inside-rating"></div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-2" style="display: flex; align-items: center;"><span>2</span>
+                                            <div class="rating-bar">
+                                                <div class="bar-inside-rating"></div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-2" style="display: flex; align-items: center;"><span>1</span>
+                                            <div class="rating-bar">
+                                                <div class="bar-inside-rating"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <%}%>
+                        <!-- //edit modal -->
+                        <div class="modal fade " id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true" >
+                           <div class="modal-dialog modal-dialog-centered  modal-dialog-scrollable ">
+                            <div class="modal-content" >
+                                <div class="modal-header">
+                                    <h3>Edit your review</h3>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form class="edit-modal-form" method="post">
+                                <div class="modal-body" style="padding-bottom: 0 !important;">
+                                <textarea name="review" class="w-100  review-modal" style="height: 15vh;"></textarea>
+                                </div>
+                                <div class="modal-footer">
+                                    
+                                    <button class="btn btn-outline-dark mt-2 edit-modal-button" style="width: 6rem;">Edit</button>
+                                    
+                                </div>
+                            </form>
+                            </div>
+                            
+                           </div>
+                        </div>
+                        <%if(data.reviews.length){%>
+                            <div class="col-lg-11 col-12   mt-4 mb-4" style="margin: auto;" >
+                                <hr style="border: none; border-top: 1.5px solid black;">
+                            </div>
+                            <%}%>
+                                <div class="reviews review-container col-lg-11 offset-0.9  mt-3 mb-3"  >
+                                    <div class="row">
+                                        <%if(data.reviews.length){%>
+                                            <h4 class="mb-4">All reviews</h4>
+                                            <%}%>
+                                                <% for(let review of data.reviews) { %>
+                                                    <div class="col-md-6 col-10 mb-4" style="max-width: 480px; height: 15rem;">
+                                                        <div class="card h-100 "
+                                                            style="padding: 0.5rem;box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;">
+                                                            <div
+                                                                class="card-body d-flex flex-column justify-content-between mb-3 " >
+                                                                <div class="review-card-header  d-flex"
+                                                                    style="height: 4rem;">
+                                                                    <div
+                                                                        class="review-img d-flex align-items-center justify-content-center me-2" style="border-radius: 50%; width: 3.5rem; height: 3.5rem; font-size: 1.5rem; font-weight: 600; background-color: black; color: white;">
+                                                                        <%= review.author.username[0].toUpperCase() %>
+                                                                    </div>
+                                                                    <div
+                                                                        class="review-sub-header d-flex flex-column ml-2">
+                                                                        <span style="font-weight: bold; margin-bottom: 0.2rem;">
+                                                                            <%=review.author.username%>
+                                                                        </span>
+                                                                        <span class="id-<%= review._id %>" style="font-size: 0.8rem;"></span>
+                                                                    </div>
+                                                                    
+                                                                    <%if(currUser && currUser._id.equals(review.author._id)){%>
+                                                                    <div class="flex-grow-1 d-flex  justify-content-end " style="margin-right: 0.2rem; cursor: pointer;">
+                                                                        
+                                                                        <div class="dropdown">
+                                                                            <i class="fa-solid fa-ellipsis-vertical" id="dropdownMenuButton<%= review._id %>" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                                                                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton<%= review._id %>">
+                                                                                <li><span class="dropdown-item edit-review" style="cursor: pointer;" data-toggle="modal" data-target="#editModal" id="<%= review._id %>">Edit</span></li>
+                                                                                <li><form class="dropdown-item w-100"  action="/listings/<%=data._id%>/reviews/<%=review._id%>?_method=DELETE" method="post"><button style="border: none; text-align: left; width: 100%; background: none; padding: 0%;">Delete</button></form></li>    
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <% } %>
+                                                                </div>
+                                                                <div
+                                                                    class="review-card-rating d-flex align-items-center mt-2 h-20 mb-2">
+                                                                    <p class="starability-result card-text h-5" style="color: black !important;"
+                                                                        data-rating="<%=review.rating%>"
+                                                                        >
+                                                                    </p>
+                                                                </div>
+                                                                <div class="review-card-comment mt-2 h-50">
+                                                                    <p class="card-text comment comment-<%= review._id %>">
+                                                                        <%=review.comment%>
+                                                                    </p>
+                                                                </div>
+                                                               
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <% } %>
+                                                
+                                    </div>
+                                    <%if(data.reviews.length > 6)
+                                    {%>
+                                        <button type="submit" class="btn btn-outline-dark mt-2" data-toggle="modal" data-target="#reviewsModal"
+                                                    style="font-weight: 600;  height: 3rem;">Show all <%= data.reviews.length %> reviews</button>
+                                    <%}%>
+
+                                    
+                                    
+                                </div>
+                                <div class="col-lg-11 col-12  mt-4 mb-4" style="margin: auto;">
+                                    <hr style="border: none; border-top: 1.5px solid black;">
+                                </div>
+                                <div class="reviews col-lg-11 col-12  mt-3 mb-3" style="margin: auto;">
+                                    <h3>Where you'll be</h3>
+                                    <div class="col-12 offset-2 mt-3 mb-3" id="map" style="margin: auto; height: 55vh; border-radius: 1rem;">
+                                    </div>
+                                </div>
+
+
+                          
+                              
+                                <script>
+                                    let coordinates = <%- JSON.stringify(data.geometry.coordinates) %>;
+                                    let mapToken = "<%=process.env.MAP_TOKEN%>";
+                                    mapboxgl.accessToken = mapToken;
+                                    const map = new mapboxgl.Map({
+                                        container: 'map', // container ID
+                                        style: 'mapbox://styles/mapbox/streets-v12',
+                                        center: coordinates, // starting position [lng, lat]
+                                        zoom: 9 // starting zoom
+                                    });
+                                    const marker1 = new mapboxgl.Marker({ color: "red" })
+                                        .setLngLat(coordinates)
+                                        .setPopup(
+                                            new mapboxgl.Popup({ offset: 25 })
+                                                .setHTML(`<h4><%=data.location%></h4><p>Exact location will be provided after booking</p>`)
+                                        )
+                                        .addTo(map);
+
+                                    let essentials = <%-JSON.stringify(data.essentials) %>;
+                                    let reviews = <%-JSON.stringify(data.reviews) %>;
+                                    let icons = document.querySelectorAll('.icon-name');
+
+                                   
+    for (let review of reviews) {
+    let reviewCreatedAt = new Date(review.updatedAt);
+    let now = new Date();
+    let differenceInMilliseconds = now - reviewCreatedAt;
+
+    // Define time units in milliseconds
+    let millisecondsInADay = 24 * 60 * 60 * 1000;
+    let millisecondsInAWeek = millisecondsInADay * 7;
+    let millisecondsInAYear = millisecondsInADay * 365.25;
+
+    // Calculate the difference in various units
+    let differenceInDays = Math.floor(differenceInMilliseconds / millisecondsInADay);
+    let differenceInWeeks = Math.floor(differenceInMilliseconds / millisecondsInAWeek);
+    let differenceInYears = Math.floor(differenceInMilliseconds / millisecondsInAYear);
+
+    // Calculate the difference in smaller units
+    let seconds = Math.floor(differenceInMilliseconds / 1000);
+    let minutes = Math.floor(seconds / 60);
+    let hours = Math.floor(minutes / 60);
+
+    // Target the specific `.duration` element of the current review
+    let ele = document.querySelector(`.id-${review._id}`);
+    let ele1 = document.querySelector(`.modal-id-${review._id}`);
+
+    if (seconds < 60) {
+        ele.textContent = `${seconds} seconds ago`;
+        ele1.textContent = `${seconds} seconds ago`;
+    } else if (minutes < 60) {
+        ele.textContent = `${minutes} minutes ago`;
+        ele1.textContent = `${minutes} minutes ago`;
+    } else if (hours < 24) {
+        ele.textContent = `${hours} hours ago`;
+        ele1.textContent = `${hours} hours ago`;
+    } else if (differenceInDays > 0 && differenceInDays < 7) {
+        ele.textContent = `${differenceInDays} days ago`;
+        ele1.textContent = `${differenceInDays} days ago`;
+    } else if (differenceInDays < 365) {
+        ele.textContent = `${differenceInWeeks} weeks ago`;
+        ele1.textContent = `${differenceInWeeks} weeks ago`;
+    } else {
+        ele.textContent = `${differenceInYears} years ago`;
+        ele1.textContent = `${differenceInYears} years ago`;
+    }
+    console.log("element content is ",ele.textContent);
+}
+let rs = document.querySelector(".review-container");
+if(reviews.length > 1)
+{
+    
+    rs.classList.add('margin');
+}
+                                    for (let icon of icons) {
+                                        if (!essentials.includes(icon.textContent.trim())) {
+                                            icon.classList.add('overline-class');
+                                        }
+                                    }
+                                    
+                                    // Assuming `reviews` is an array of review objects and each review has a `.duration` element to update.
+
+
+
+                                    let sum = 0;
+                                    arr = new Array(6).fill(0);
+
+                                    for (let review of reviews) {
+                                        sum = sum + review.rating;
+                                        arr[review.rating]++;
+                                    }
+                                    let sum1 = 0;
+                                    for (let ele of arr) {
+                                        sum1 = sum1 + ele;
+                                    }
+                                    
+                                    if (sum1) {
+                                        let five = ((arr[5] / sum1).toFixed(2)) * 7 + 'rem';
+                                        let four = ((arr[4] / sum1).toFixed(2)) * 7 + 'rem';
+                                        let three = ((arr[3] / sum1).toFixed(2)) * 7 + 'rem';
+                                        let two = ((arr[2] / sum1).toFixed(2)) * 7 + 'rem';
+                                        let one = ((arr[1] / sum1).toFixed(2)) * 7 + 'rem';
+                                        console.log("one- ",one);console.log("two- ",two);console.log("three- ",three);console.log("four- ",four);console.log("five- ",five);
+                                        
+                                        let inside = document.getElementsByClassName('bar-inside-rating');
+                                        inside[0].style.width = five;
+                                        inside[1].style.width = four;
+                                        inside[2].style.width = three;
+                                        inside[3].style.width = two;
+                                        inside[4].style.width = one;
+                                    }
+                            let comments = document.querySelectorAll(".comment");
+                            for(let comment of comments)
+                            {
+                                let text = comment.textContent.trim();
+                               
+
+                                if(text.length <= 110)
+                                {
+                                    comment.textContent = text;
+                                }
+                                else
+                                {
+                                    comment.innerHTML = `${text.substring(0,111)}&nbsp;... <span href="#" style="text-decoration:none; color:black; cursor:pointer;" data-toggle="modal" data-target="#reviewsModal" ><b>Read more</b></span>`;
+                                }
+                            }
+                            let editreviews = document.querySelectorAll(".edit-review");
+                              
+                            for(let editreview of editreviews)
+                            {
+                                editreview.addEventListener("click",()=>{
+                                let content = document.querySelector(`.modal-comment-${editreview.id}`);
+                                
+                                let modalcontent = document.querySelector(".review-modal");
+                                modalcontent.textContent = content.textContent.trim();
+
+                                
+                            });
+                            }
+
+
+
+                            let modaleditreviews = document.querySelectorAll(".edit-review-modal");
+                              
+                            for(let editreview of modaleditreviews)
+                            {
+                                editreview.addEventListener("click",()=>{
+                                let content = document.querySelector(`.modal-comment-${editreview.id}`);
+                                console.log("content is ",content);
+                                
+                                let modalcontent = document.querySelector(".review-modal");
+                                modalcontent.textContent = content.textContent.trim();
+
+                                
+                            });
+                            }
+
+                            for(let editreview of editreviews)
+                            {
+                                editreview.addEventListener("click",()=>{
+                                    let id = editreview.id;
+                                    let editModalButton = document.querySelector(".edit-modal-button");
+
+                                    
+                                    editModalButton.addEventListener("click",(event)=>{
+                                        let editModalForm = document.querySelector(".edit-modal-form");
+                                        
+                                        let data_id = <%- JSON.stringify(data._id) %>;
+                                        
+                                        
+                                        editModalForm.action = `/listings/${data_id}/reviews/${id}?_method=PATCH`;
+                                    })
+                                })
+                            }
+
+                            const guestsBtn = document.getElementById('guests-btn');
+      const guestsDropdown = document.getElementById('guests-dropdown');
+      const closeBtn = document.querySelector('.close-btn');
+      const minusBtns = document.querySelectorAll('.minus-btn');
+      const plusBtns = document.querySelectorAll('.plus-btn');
+      const guestInputs = guestsDropdown.querySelectorAll('input');
+      let total_guest =2;
+      let total_infant=1;
+
+      guestsBtn.addEventListener('click', function() {
+        guestsDropdown.style.display = 'block';
+      });
+
+      closeBtn.addEventListener('click', function() {
+        guestsDropdown.style.display = 'none';
+      });
+
+      minusBtns.forEach((btn, index) => {
+        btn.addEventListener('click', function() {
+          let value = parseInt(guestInputs[index].value);
+          if (value > 0 && index!=2 ) {
+            guestInputs[index].value = value - 1;
+            total_guest-=1;
+            console.log("total guest are - ",total_guest);
+            updateGuestsText();
+            solve_minus();
+
+          }
+          else
+          if(total_infant>0 && index === 2)
+          {
+            total_infant -= 1;
+            guestInputs[index].value = total_infant;
+            if(total_infant <= 0)
+          {
+            document.querySelector(".infant-minus").style.opacity = 0.5; 
+          }
+          else
+          {
+            document.querySelector(".infant-plus").style.opacity = 1; 
+          }
+
+          
+            updateGuestsText();
+          }
+        });
+      });
+
+      plusBtns.forEach((btn, index) => {
+       
+        btn.addEventListener('click', function() {
+          let value = parseInt(guestInputs[index].value);
+          
+          if(total_guest < <%-JSON.stringify(data.max_guest)%> && index!=2 && index!=3)
+          {
+            guestInputs[index].value = value + 1;
+            total_guest+=1;
+            console.log("total guest are - ",total_guest);
+          updateGuestsText();
+          solve_plus();
+          }
+          else
+          if(total_infant < 5 && index===2)
+          {
+            total_infant += 1;
+            guestInputs[index].value = total_infant ;
+
+            if(total_infant >= 5)
+          {
+            document.querySelector(".infant-plus").style.opacity = 0.5;
+          }
+          else
+          {
+            document.querySelector(".infant-minus").style.opacity = 1;
+          }
+            
+            updateGuestsText();
+          }
+        });
+      });
+
+      function solve_plus()
+      {
+        if(total_guest >= <%-JSON.stringify(data.max_guest)%>)
+      {
+        plusBtns.forEach((btn, index) => {
+            if(index!==2)
+        {
+            btn.style.opacity = 0.5;
+        }
+        })
+    }
+
+
+
+    
+        minusBtns.forEach((btn,index)=>{
+            if(index!==2 && index!==3 && guestInputs[index].value > 0)
+        {
+            btn.style.opacity = 1;
+        }
+        })
+    
+      }
+
+      function solve_minus()
+      {
+        if(total_guest < <%-JSON.stringify(data.max_guest)%>)
+      {
+        plusBtns.forEach((btn, index) => {
+            if(index!==2 && index!==3)
+        {
+            btn.style.opacity = 1;
+        }
+        
+        })
+    }
+
+    
+        minusBtns.forEach((btn,index)=>{
+            if(index!==2 && index!==3 && guestInputs[index].value <= 0)
+        {
+            btn.style.opacity = 0.5;
+        }
+       
+        })
+    
+      }
+
+      function updateGuestsText() {
+        let totalGuests = 0;
+        guestInputs.forEach(input => {
+          totalGuests += parseInt(input.value);
+        });
+        totalGuests-=total_infant;
+        guestsBtn.textContent = `${totalGuests} guest${totalGuests > 1 ? 's' : ''} , ${total_infant} infant${total_infant > 1 ? 's' : ''}`;
+      }
+
+      function formatDateToYYYYMMDD(date) {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = ('0' + (d.getMonth() + 1)).slice(-2);
+    const day = ('0' + d.getDate()).slice(-2);
+    return `${day}-${month}-${year}`;
+  }
+
+  let checkInDate = new Date();
+let checkOutDate = new Date(checkInDate); // Create a new Date object based on checkInDate
+checkOutDate.setDate(checkInDate.getDate() + 1); // Increment by one day
+
+document.getElementById('check-in-date').value = formatDateToYYYYMMDD(checkInDate);
+document.getElementById('check-out-date').value = formatDateToYYYYMMDD(checkInDate);
+
+
+
+
+
+        
+
+
+
+
+                                </script>
+                                
+
+
+                                 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+                                 
+                                 <script
+                                     src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+                                 <script
+                                     src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+                                      
+    </body>

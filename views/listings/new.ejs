@@ -1,0 +1,423 @@
+<head>
+    <style>
+        .form-check-label {
+            font-size: 0.8rem;
+            margin-left: 0.4rem;
+        }
+        .form-check-input {
+            font-size: 0.8rem;
+        }
+        .form-check {
+            display: flex;
+            align-items: center;
+        }
+        .category-radio {
+            display: flex;
+            align-items: center;
+            line-height: 2;
+        }
+    </style>
+    <script>
+        function validateImageUpload() {
+            const imageInput = document.getElementById('images');
+            const files = imageInput.files;
+            const maxFiles = 30;
+            const minFiles = 5;
+
+            if (files.length < minFiles || files.length > maxFiles) {
+                alert(`Please select between ${minFiles} and ${maxFiles} images.`);
+                imageInput.value = ''; // Clear the input
+                return false;
+            }
+            return true;
+        }
+    </script>
+</head>
+<%layout('/layouts/boilerplate.ejs')%>
+<body>
+    <div class="row">
+        <div class="col-8 offset-2">
+            <h2 class="mb-3">Create a new list</h2>
+            <form action="/listings" method="POST" class="needs-validation" novalidate enctype="multipart/form-data" onsubmit="return validateImageUpload()">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title:</label>
+                    <input type="text" id="title" name="title" placeholder="Add a catchy title" class="form-control" required>
+                    <div class="valid-feedback">
+                        Title looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please enter a short title!
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description:</label>
+                    <textarea name="description" id="description" placeholder="Enter description" class="form-control" required></textarea>
+                    <div class="invalid-feedback">
+                        Please enter a short description!
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="images" class="form-label">Upload Images:</label>
+                    <input type="file" id="images" name="image" class="form-control" multiple required>
+                    <div class="invalid-feedback">
+                        Please upload between 5 and 30 images.
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="mb-3 col-md-4">
+                        <label for="price" class="form-label">Price:</label>
+                        <input type="number" name="price" id="price" placeholder="1200" class="form-control" required>
+                        <div class="invalid-feedback">
+                            Price should be valid
+                        </div>
+                    </div>
+                    <div class="mb-3 col-md-8">
+                        <label for="country" class="form-label">Country:</label>
+                        <input type="text" name="country" placeholder="India" id="country" class="form-control" required>
+                        <div class="invalid-feedback">
+                            Country name should be valid
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="location" class="form-label">Location:</label>
+                    <input type="text" id="location" name="location" placeholder="Jaipur, Rajasthan" class="form-control" required>
+                    <div class="invalid-feedback">
+                        Location should be valid
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="max-guests" class="form-label">Max Guests Allowed:</label>
+                    <input type="number" id="max-guests" name="max_guest" placeholder="4" class="form-control" required>
+                    <div class="invalid-feedback">
+                        Please enter a valid number of guests.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="bedrooms" class="form-label">Number of Bedrooms:</label>
+                    <input type="number" id="bedrooms" name="bedrooms" placeholder="2" class="form-control" required>
+                    <div class="invalid-feedback">
+                        Please enter a valid number of bedrooms.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="bathrooms" class="form-label">Number of Bathrooms:</label>
+                    <input type="number" id="bathrooms" name="bathrooms" placeholder="1" class="form-control" required>
+                    <div class="invalid-feedback">
+                        Please enter a valid number of bathrooms.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="bathroomType" class="form-label">Bathroom Type:</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="bathroomType" id="separate" value="Separate" required>
+                        <label class="form-check-label" for="separate">Separate</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="bathroomType" id="shared" value="Shared" required>
+                        <label class="form-check-label" for="shared">Shared</label>
+                    </div>
+                    <div class="invalid-feedback">Please select a bathroom type.</div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="kitchen" class="form-label">Kitchen:</label>
+                    <select id="kitchen" name="kitchen" class="form-control" required>
+                        <option value="" disabled selected>Select option</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Please select an option.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="beds" class="form-label">Number of Beds:</label>
+                    <input type="number" id="beds" name="beds" placeholder="3" class="form-control" required>
+                    <div class="invalid-feedback">
+                        Please enter a valid number of beds.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="bed-type-king" class="form-label">Number of King Beds:</label>
+                    <input type="number" id="bed-type-king" name="king" placeholder="1" class="form-control">
+                    <div class="invalid-feedback">
+                        Please enter a valid number of king beds.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="bed-type-queen" class="form-label">Number of Queen Beds:</label>
+                    <input type="number" id="bed-type-queen" name="queen" placeholder="1" class="form-control">
+                    <div class="invalid-feedback">
+                        Please enter a valid number of queen beds.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="bed-type-twin" class="form-label">Number of Twin Beds:</label>
+                    <input type="number" id="bed-type-twin" name="twin" placeholder="1" class="form-control">
+                    <div class="invalid-feedback">
+                        Please enter a valid number of twin beds.
+                    </div>
+                </div>
+
+                <div class="mb-4 row">
+                    <label class="mb-2">Essentials:</label>
+                    <div class="form-check col-sm-6 col-12">
+                        <input class="form-check-input" type="checkbox" name="essential" value="Garden view" id="Garden_view">
+                        <label class="form-check-label" for="Garden_view">
+                            Garden view
+                        </label>
+                    </div>
+                    <div class="form-check col-sm-6 col-12">
+                        <input class="form-check-input" type="checkbox" name="essential" value="Wifi" id="Wifi">
+                        <label class="form-check-label" for="Wifi">
+                            Wifi
+                        </label>
+                    </div>
+                    <div class="form-check col-sm-6 col-12">
+                        <input class="form-check-input" type="checkbox" name="essential" value="Parking" id="Parking">
+                        <label class="form-check-label" for="Parking">
+                            Parking
+                        </label>
+                    </div>
+                    <div class="form-check col-sm-6 col-12">
+                        <input class="form-check-input" type="checkbox" name="essential" value="Private pool" id="Private_pool">
+                        <label class="form-check-label" for="Private_pool">
+                            Private pool
+                        </label>
+                    </div>
+                    <div class="form-check col-sm-6 col-12">
+                        <input class="form-check-input" type="checkbox" name="essential" value="Essential" id="Essential">
+                        <label class="form-check-label" for="Essential">
+                            Essential
+                        </label>
+                    </div>
+                    <div class="form-check col-sm-6 col-12">
+                        <input class="form-check-input" type="checkbox" name="essential" value="Hot water" id="Hot_water">
+                        <label class="form-check-label" for="Hot_water">
+                            Hot water
+                        </label>
+                    </div>
+                    <div class="form-check col-sm-6 col-12">
+                        <input class="form-check-input" type="checkbox" name="essential" value="Television" id="Television">
+                        <label class="form-check-label" for="Television">
+                            Television
+                        </label>
+                    </div>
+                    <div class="form-check col-sm-6 col-12">
+                        <input class="form-check-input" type="checkbox" name="essential" value="Kitchen" id="Kitchen">
+                        <label class="form-check-label" for="Kitchen">
+                            Kitchen
+                        </label>
+                    </div>
+                    <div class="form-check col-sm-6 col-12">
+                        <input class="form-check-input" type="checkbox" name="essential" value="CCTV" id="CCTV">
+                        <label class="form-check-label" for="CCTV">
+                            CCTV
+                        </label>
+                    </div>
+                    <div class="form-check col-sm-6 col-12">
+                        <input class="form-check-input" type="checkbox" name="essential" value="Mineral water" id="Mineral_water">
+                        <label class="form-check-label" for="Mineral_water">
+                            Mineral water
+                        </label>
+                    </div>
+                    <div class="form-check col-sm-6 col-12">
+                        <input class="form-check-input" type="checkbox" name="essential" value="AC" id="AC">
+                        <label class="form-check-label" for="AC">
+                            AC
+                        </label>
+                    </div>
+                    <div class="form-check col-sm-6 col-12">
+                        <input class="form-check-input" type="checkbox" name="essential" value="Dining table" id="Dining_table">
+                        <label class="form-check-label" for="Dining_table">
+                            Dining table
+                        </label>
+                    </div>
+                    <div class="form-check col-sm-6 col-12">
+                        <input class="form-check-input" type="checkbox" name="essential" value="Bathtub" id="Bathtub">
+                        <label class="form-check-label" for="Bathtub">
+                            Bathtub
+                        </label>
+                    </div>
+                    <div class="form-check col-sm-6 col-12">
+                        <input class="form-check-input" type="checkbox" name="essential" value="Extra pillows" id="Extra_pillows">
+                        <label class="form-check-label" for="Extra_pillows">
+                            Extra pillows
+                        </label>
+                    </div>
+                    <div class="form-check col-sm-6 col-12">
+                        <input class="form-check-input" type="checkbox" name="essential" value="Iron" id="Iron">
+                        <label class="form-check-label" for="Iron">
+                            Iron
+                        </label>
+                    </div>
+                    <div class="form-check col-sm-6 col-12">
+                        <input class="form-check-input" type="checkbox" name="essential" value="Wardrobe" id="Wardrobe">
+                        <label class="form-check-label" for="Wardrobe">
+                            Wardrobe
+                        </label>
+                    </div>
+                    
+                    <div class="form-check col-sm-6 col-12">
+                        <input class="form-check-input" type="checkbox" name="essential" value="Sound system" id="Sound_system">
+                        <label class="form-check-label" for="Sound_system">
+                            Sound system
+                        </label>
+                    </div>
+                    <div class="form-check col-sm-6 col-12">
+                        <input class="form-check-input" type="checkbox" name="essential" value="Children’s tableware" id="Children’s_tableware">
+                        <label class="form-check-label" for="Children’s_tableware">
+                            Children’s tableware
+                        </label>
+                    </div>
+                    <div class="form-check col-sm-6 col-12">
+                        <input class="form-check-input" type="checkbox" name="essential" value="Board games" id="Board_games">
+                        <label class="form-check-label" for="Board_games">
+                            Board games
+                        </label>
+                    </div>
+                    <div class="form-check col-sm-6 col-12">
+                        <input class="form-check-input" type="checkbox" name="essential" value="Outdoor playground" id="Outdoor_playground">
+                        <label class="form-check-label" for="Outdoor_playground">
+                            Outdoor playground
+                        </label>
+                    </div>
+                    <div class="form-check col-sm-6 col-12">
+                        <input class="form-check-input" type="checkbox" name="essential" value="Ceiling fan" id="Ceiling_fan">
+                        <label class="form-check-label" for="Ceiling_fan">
+                            Ceiling fan
+                        </label>
+                    </div>
+                    <div class="form-check col-sm-6 col-12">
+                        <input class="form-check-input" type="checkbox" name="essential" value="Fire extinguisher" id="Fire_extinguisher">
+                        <label class="form-check-label" for="Fire_extinguisher">
+                            Fire extinguisher
+                        </label>
+                    </div>
+                    <div class="form-check col-sm-6 col-12">
+                        <input class="form-check-input" type="checkbox" name="essential" value="First aid kit" id="First_aid_kit">
+                        <label class="form-check-label" for="First_aid_kit">
+                            First aid kit
+                        </label>
+                    </div>
+                    <div class="form-check col-sm-6 col-12">
+                        <input class="form-check-input" type="checkbox" name="essential" value="Dedicated workspace" id="Dedicated_workspace">
+                        <label class="form-check-label" for="Dedicated_workspace">
+                            Dedicated workspace
+                        </label>
+                    </div>
+                    <div class="form-check col-sm-6 col-12">
+                        <input class="form-check-input" type="checkbox" name="essential" value="Fridge" id="Fridge">
+                        <label class="form-check-label" for="Fridge">
+                            Fridge
+                        </label>
+                    </div>
+                    <div class="form-check col-sm-6 col-12">
+                        <input class="form-check-input" type="checkbox" name="essential" value="Microwave" id="Microwave">
+                        <label class="form-check-label" for="Microwave">
+                            Microwave
+                        </label>
+                    </div>
+                    <div class="form-check col-sm-6 col-12">
+                        <input class="form-check-input" type="checkbox" name="essential" value="Dishes and cutlery" id="Dishes_and_cutlery">
+                        <label class="form-check-label" for="Dishes_and_cutlery">
+                            Dishes and cutlery
+                        </label>
+                    </div>
+                    <div class="form-check col-sm-6 col-12">
+                        <input class="form-check-input" type="checkbox" name="essential" value="Oven" id="Oven">
+                        <label class="form-check-label" for="Oven">
+                            Oven
+                        </label>
+                    </div>
+                    <div class="form-check col-sm-6 col-12">
+                        <input class="form-check-input" type="checkbox" name="essential" value="Private patio or balcony" id="Private_patio_or_balcony">
+                        <label class="form-check-label" for="Private_patio_or_balcony">
+                            Private patio or balcony
+                        </label>
+                    </div>
+                    
+                    <div class="form-check col-sm-6 col-12">
+                        <input class="form-check-input" type="checkbox" name="essential" value="Firepit" id="Firepit">
+                        <label class="form-check-label" for="Firepit">
+                            Firepit
+                        </label>
+                    </div>
+                    <div class="form-check col-sm-6 col-12">
+                        <input class="form-check-input" type="checkbox" name="essential" value="Outdoor furniture" id="Outdoor_furniture">
+                        <label class="form-check-label" for="Outdoor_furniture">
+                            Outdoor furniture
+                        </label>
+                    </div>
+                    <div class="form-check col-sm-6 col-12">
+                        <input class="form-check-input" type="checkbox" name="essential" value="BBQ grill" id="BBQ_grill">
+                        <label class="form-check-label" for="BBQ_grill">
+                            BBQ grill
+                        </label>
+                    </div>
+                    
+                               
+                </div>
+                <div class="mb-5">
+                    <label class="mb-2">Category: </label>
+                    <div class="form-check row">
+                        
+                        <div class="category-radio col-sm-6 col-12">
+                            <input class="form-check-input" type="radio" name="category" id="Trending" value="Trending">
+                            <label class="form-check-label" for="Trending">Trending</label>
+                        </div>
+                        <div class="category-radio col-sm-6 col-12">
+                            <input class="form-check-input" type="radio" name="category" id="Rooms" value="Rooms">
+                            <label class="form-check-label" for="Rooms">Rooms</label>
+                        </div>
+                        <div class="category-radio col-sm-6 col-12">
+                            <input class="form-check-input" type="radio" name="category" id="IconicCities" value="Iconic cities">
+                            <label class="form-check-label" for="IconicCities">Iconic cities</label>
+                        </div>
+                        <div class="category-radio col-sm-6 col-12">
+                            <input class="form-check-input" type="radio" name="category" id="Beachfront" value="Beachfront">
+                            <label class="form-check-label" for="Beachfront">Beachfront</label>
+                        </div>
+                        <div class="category-radio col-sm-6 col-12">
+                            <input class="form-check-input" type="radio" name="category" id="Mountains" value="Mountains">
+                            <label class="form-check-label" for="Mountains">Mountains</label>
+                        </div>
+                        <div class="category-radio col-sm-6 col-12">
+                            <input class="form-check-input" type="radio" name="category" id="AmazingPool" value="Amazing pool">
+                            <label class="form-check-label" for="AmazingPool">Amazing pool</label>
+                        </div>
+                        <div class="category-radio col-sm-6 col-12">
+                            <input class="form-check-input" type="radio" name="category" id="Camping" value="Camping">
+                            <label class="form-check-label" for="Camping">Camping</label>
+                        </div>
+                        <div class="category-radio col-sm-6 col-12">
+                            <input class="form-check-input" type="radio" name="category" id="Farms" value="Farms">
+                            <label class="form-check-label" for="Farms">Farms</label>
+                        </div>
+                        <div class="category-radio col-sm-6 col-12">
+                            <input class="form-check-input" type="radio" name="category" id="Arctic" value="Arctic">
+                            <label class="form-check-label" for="Arctic">Arctic</label>
+                        </div>
+                        <div class="category-radio col-sm-6 col-12">
+                            <input class="form-check-input" type="radio" name="category" id="Domes" value="Domes">
+                            <label class="form-check-label" for="Domes">Domes</label>
+                        </div>
+                        <div class="category-radio col-sm-6 col-12">
+                            <input class="form-check-input" type="radio" name="category" id="Skiing" value="Skiing">
+                            <label class="form-check-label" for="Skiing">Skiing</label>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                
+
+
+               
+                <button class="btn btn-primary add-btn mb-4">Add</button>
+            </form>
+        </div>
+    </div>
+</body>

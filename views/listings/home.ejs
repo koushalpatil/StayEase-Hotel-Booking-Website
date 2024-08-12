@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StayEase - Your Perfect Stay</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f5f5f5;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 80px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            margin: 0;
+        }
+
+        .nav-links a {
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 15px;
+            transition: background 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: #f56a6a;
+            color: #fff;
+            border-radius: 5px;
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #333;
+        }
+
+        .navbar-menu {
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar-menu.active {
+            display: flex;
+        }
+
+        .nav-links {
+            display: flex;
+        }
+
+        .nav-links.hide {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 20px 10px;
+            }
+
+            .navbar-menu {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background: rgba(255, 255, 255, 0.9);
+                position: absolute;
+                top: 70px;
+                left: 0;
+                padding: 20px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            .navbar-menu.active {
+                display: flex;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .nav-links {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .nav-links a {
+                padding: 10px;
+                font-size: 18px;
+            }
+        }
+
+        .hero-section {
+            background: url('https://woody.cloudly.space/app/uploads/montpelliertourisme/2022/11/thumbs/hotel-g0bd5f5a49_1920-1200x1200-crop-1677841463.jpg') no-repeat center center/cover;
+            height: 100vh;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            padding: 0 20px;
+        }
+
+        .hero-content {
+            width: 60%;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            margin: 0;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin: 10px 0;
+        }
+
+        .btn-primary {
+            background-color: #f56a6a;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #e04a4a;
+        }
+
+        .read-more {
+            display: none;
+        }
+
+        .read-more-btn {
+            color: #f56a6a;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content {
+                width: 80%;
+            }
+
+            .read-more {
+                display: inline;
+            }
+
+            .read-more-content {
+                display: none;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .read-more {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">StayEase</div>
+        <div class="hamburger"><i class="fas fa-bars"></i></div>
+        <ul class="nav-links navbar-menu">
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#rooms">Explore</a></li>
+            <li><a href="#reservation">Login</a></li>
+            <li><a href="#contact">Signup</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero-section">
+        <div class="hero-content" data-aos="fade-up">
+            <h1>StayEase</h1>
+            <p>Your Perfect Stay Awaits</p>
+            <p style="font-size: 1.1rem; line-height: 1.6; color:white; text-align: center; margin: 20px 0;">
+                At StayEase, we believe in providing our guests with the ultimate comfort and luxury experience.
+                <span class="read-more-content">Nestled in the heart of the city, our hotel offers a serene escape with modern amenities and exceptional service. Each room is meticulously designed to cater to your needs, featuring plush bedding, high-speed internet, and breathtaking views.</span>
+                <span class="read-more">... <span class="read-more-btn">Read More</span></span>
+            </p>
+            <a href="#explore" class="btn-primary">Explore It</a>
+        </div>
+    </header>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        AOS.init();
+
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.navbar-menu');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        const readMoreBtn = document.querySelector('.read-more-btn');
+        const readMoreContent = document.querySelector('.read-more-content');
+        const readMore = document.querySelector('.read-more');
+
+        readMoreBtn.addEventListener('click', () => {
+            if (readMoreContent.style.display === "none" || readMoreContent.style.display === "") {
+                readMoreContent.style.display = "inline";
+                readMoreBtn.textContent = "Read Less";
+            } else {
+                readMoreContent.style.display = "none";
+                readMoreBtn.textContent = "Read More";
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navbar with Dropdown</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .btn-search {
+            background-color: #fe424d; 
+            color: #fff;
+            border-radius: 1.5rem;
+            padding: 0 1rem;
+        }
+
+        .btn-search:hover {
+            background-color: #fe424d; 
+            color: #fff;
+        }
+
+        .navbar {
+            background-color: #f8f9fa;
+            padding: 1rem;
+        }
+
+        .profile-container {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            display: none; /* Hide by default */
+            position: absolute;
+            right: 0;
+            top: 60px; /* Adjust based on your navbar height */
+            background-color: white;
+            min-width: 250px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 8px;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .menu-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item:hover {
+            background-color: #f1f1f1;
+        }
+
+        .new-feature {
+            font-weight: bold;
+        }
+
+        .new-badge {
+            background-color: #ff4d4d;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 12px;
+            font-size: 10px;
+            margin-left: 10px;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid #ddd;
+            margin: 8px 0;
+        }
+        .main-search-btn
+        {
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .profile-button
+        {
+            box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+        }
+        .profile-button:hover
+        {
+            box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+        }
+    </style>
+    
+</head>
+<body>
+    <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link" href="/listings">Explore</a>
+                </div>
+                <div class="navbar-nav ms-auto">
+                    <form class="d-flex" role="search" action="/listings/search" method="post">
+                        <input class="form-control me-2 main-search" name="destination" style="border-radius: 1.5rem; padding: 0.5rem 3rem; font-size: 1rem;" type="search" placeholder="Search destination" aria-label="Search">
+                        <button class="btn btn-search main-search-btn" type="submit" >
+                            <i class="fa-solid fa-magnifying-glass" style="margin-right: 0.5rem;"></i>Search</button>
+                    </form>
+                </div>
+                <div class="navbar-nav ms-auto">
+                    <a class="nav-link" href="/listings/new" style="text-align: center;">Airbnb your home</a>
+                    <div class="profile-container" style="margin-left: 1rem; margin-right: 2rem; display: flex; align-items: center;">
+                        <div class="profile-button" style="display: flex; padding: 0.3rem 0.3rem 0.3rem 0.3rem;  border-radius: 2rem; box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;  align-items: center;  width: 5rem; justify-content: center; cursor: pointer;">
+                            <i class="fa-solid fa-bars" style="margin-right: 1.8rem;"></i>
+                            <%if(currUser){%>
+                                <span class="account-pic" style="height: 85%; width: 65%; border-radius: 50%; background-color: black; color:white; display: flex; justify-content: center; align-items: center; border-radius: 2rem;"><%= currUser.username[0].toUpperCase() %></span>
+                        
+                            <% } else { %>
+                                <span class="account-pic" style="height: 85%; width: 65%; border-radius: 50%; background-color: black; color:white; display: flex; justify-content: center; align-items: center; border-radius: 2rem;"><img src="https://www.murrayglass.com/wp-content/uploads/2020/10/avatar-2048x2048.jpeg" style="width: 100%; height: 100%; border-radius: 50%;" alt=""></span>
+                            <%}%>
+                             
+                            
+                        </div>
+                        <div class="dropdown-menu">
+                            <%if(currUser){%>
+                              <a href="/favourites" style="text-decoration: none; color: black;"><div class="menu-item">My Favourite</div></a>
+                              <a href="/reservations" style="text-decoration: none; color: black;"><div class="menu-item">My Reservations</div></a>
+                              
+                              <a href="/profile" style="text-decoration: none; color: black;"><div class="menu-item">My Account</div></a>
+                              <a href="/my-properties" style="text-decoration: none; color: black;"><div class="menu-item">My Properties</div></a>
+                              <a href="/listings/new" style="text-decoration: none; color: black;"><div class="menu-item">Airbnb your home</div></a>
+                              <a href="/logout" style="text-decoration: none; color: black;"><div class="menu-item">Logout</div></a>
+                            <%}
+                            else { %>
+                              <a href="/signup" style="text-decoration: none; color: black; "><div class="menu-item">Signup</div></a>
+                              <a href="/login" style="text-decoration: none; color: black;"><div class="menu-item">Login</div></a>
+                            <%}%>
+                               
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            const profileButton = document.querySelector(".profile-button");
+            const dropdownMenu = document.querySelector(".dropdown-menu");
+
+            profileButton.addEventListener("click", function() {
+                dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
+            });
+
+            // Close the dropdown if clicked outside
+            window.addEventListener("click", function(event) {
+                if (!profileButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                    dropdownMenu.style.display = "none";
+                }
+            });
+
+            
+           
+        });
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f9fa;
+        }
+        .otp-container {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .otp-container img {
+            width: 50px;
+            margin-bottom: 1rem;
+        }
+        .otp-container h2 {
+            margin-bottom: 1rem;
+        }
+        .otp-inputs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .otp-inputs input {
+            width: 3rem;
+            height: 3rem;
+            font-size: 2rem;
+            text-align: center;
+        }
+        .resend-otp {
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="otp-container">
+        <img src="https://img.icons8.com/ios-filled/50/000000/smartphone.png" alt="OTP Icon">
+        <form action="/signup" method="post">
+        <h2>OTP Verification</h2>
+        <p>One Time Password (OTP) has been sent via Email.</p>
+        <p>Enter the OTP below to verify it.</p>
+        <div class="otp-inputs">
+            <input type="text" name="first" maxlength="1" id="otp1" class="form-control otp-input" autocomplete="one-time-code">
+            <input type="text" name="second" maxlength="1" id="otp2" class="form-control otp-input" autocomplete="one-time-code">
+            <input type="text" name="third" maxlength="1" id="otp3" class="form-control otp-input" autocomplete="one-time-code">
+            <input type="text" name="forth" maxlength="1" id="otp4" class="form-control otp-input" autocomplete="one-time-code">
+            <input type="text" name="fifth" maxlength="1" id="otp5" class="form-control otp-input" autocomplete="one-time-code">
+            <input type="text" name="sixth" maxlength="1" id="otp6" class="form-control otp-input" autocomplete="one-time-code">
+        </div>
+        <button class="btn btn-primary btn-block" id="verifyOtpBtn">Verify OTP</button>
+        </form>
+        <div class="resend-otp">
+            <a style="text-decoration: none; color: black;" href="/resend">Resend OTP</a>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            
+            $('.otp-input').on('input', function(e) {
+                if ($(this).val().length === 1) {
+                    $(this).next('.otp-input').focus();
+                }
+            });
+
+            $('.otp-input').on('keydown', function(e) {
+                if (e.key === 'Backspace' && $(this).val() === '') {
+                    $(this).prev('.otp-input').focus();
+                }
+            });
+
+           
+            $('#verifyOtpBtn').click(function() {
+                const otp = $('#otp1').val() + $('#otp2').val() + $('#otp3').val() + $('#otp4').val() + $('#otp5').val() + $('#otp6').val();
+                
+                console.log('OTP:', otp);
+            });
+        });
+    </script>
+</body>
+</html>

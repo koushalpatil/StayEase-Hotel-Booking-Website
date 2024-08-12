@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .container
+        {
+            margin: auto; width: 50vw;
+        }
+        @media (max-width: 750px) {
+          .container
+          {
+            width: 100vw;
+          }
+        }
+    </style>
+</head>
+<body>
+    <a href="/listings/<%= id %>" style="font-size: 1.5rem; margin-left: 1.3rem;"><i class="fa-solid fa-angles-left"></i></a>
+    
+    <div class="container" >
+        <%for(let img of images)
+        {%>
+            <img src="<%= img %>" alt="listing_img" style="width: 100%;  margin: 2rem; object-fit: cover;">
+        <%}%>
+    </div>
+</body>
+</html>
