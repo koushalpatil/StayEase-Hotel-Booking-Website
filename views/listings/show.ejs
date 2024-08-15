@@ -425,6 +425,13 @@
     .container{
         min-width: 100vw;
     }
+    @media(max-width:550px)
+    {
+        .fc-today-button 
+        {
+            display: none !important;
+        }
+    }
         
 </style>
 
@@ -722,9 +729,9 @@ for(let day of days)
                             
                     </div>
                 </div>
-                <div class="col-lg-5 col-12" style="padding-top: 2rem; padding-bottom: 2rem;">
+                <div class="col-lg-5 col-10" style="padding-top: 2rem; padding-bottom: 2rem;">
                     <form method="post" action="/verify/<%= data._id %>" style="height: 100%;">
-                    <div class="reservation-card " style="position: sticky; top:15%; ">
+                    <div class="reservation-card " style="position: sticky; top:15%; padding-top: 2rem; padding-bottom: 2rem; ">
                         <h5 style="font-weight: 700;" class="mb-4">₹ <%= data.price.toLocaleString('en-IN') %> <span class="night">night</span></h5>
                         
                         <div class="guest-cont mb-4" style="display: flex;  flex-direction: column; box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px; border-radius: 0.5rem;">

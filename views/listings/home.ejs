@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -98,7 +99,7 @@
             }
 
             .hamburger {
-                display: block;
+                display: block !important;
             }
 
             .nav-links {
@@ -195,6 +196,7 @@
         }
     </style>
 </head>
+
 <body>
     <nav class="navbar">
         <div class="logo">StayEase</div>
@@ -213,7 +215,9 @@
             <p>Your Perfect Stay Awaits</p>
             <p style="font-size: 1.1rem; line-height: 1.6; color:white; text-align: center; margin: 20px 0;">
                 At StayEase, we believe in providing our guests with the ultimate comfort and luxury experience.
-                <span class="read-more-content">Nestled in the heart of the city, our hotel offers a serene escape with modern amenities and exceptional service. Each room is meticulously designed to cater to your needs, featuring plush bedding, high-speed internet, and breathtaking views.</span>
+                <span class="read-more-content">Nestled in the heart of the city, our hotel offers a serene escape with
+                    modern amenities and exceptional service. Each room is meticulously designed to cater to your needs,
+                    featuring plush bedding, high-speed internet, and breathtaking views.</span>
                 <span class="read-more">... <span class="read-more-btn">Read More</span></span>
             </p>
             <a href="/listings" class="btn-primary">Explore It</a>
@@ -224,12 +228,16 @@
     <script>
         AOS.init();
 
-        const hamburger = document.querySelector('.hamburger');
-        const navLinks = document.querySelector('.navbar-menu');
+        document.addEventListener('DOMContentLoaded', function () {
+            const hamburger = document.querySelector('.hamburger');
+            const navLinks = document.querySelector('.navbar-menu');
 
-        hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
+            hamburger.addEventListener('click', function () {
+                navLinks.classList.toggle('active');
+                hamburger.classList.toggle('is-active');
+            });
         });
+
 
         const readMoreBtn = document.querySelector('.read-more-btn');
         const readMoreContent = document.querySelector('.read-more-content');
@@ -246,4 +254,5 @@
         });
     </script>
 </body>
+
 </html>
