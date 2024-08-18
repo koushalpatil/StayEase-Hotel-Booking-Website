@@ -4,255 +4,413 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StayEase - Your Perfect Stay</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <title>StayEase</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 100%;
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            background-color: #f5f5f5;
         }
 
-        .navbar {
+        .header {
+            width: 100%;
+            padding: 1.7rem 2rem;
+            max-width: 70%;
+            border-radius: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 80px;
-            background: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            position: relative;
+            box-sizing: border-box;
         }
 
-        .navbar .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .nav-links {
-            list-style: none;
-            display: flex;
-            gap: 20px;
+        .header h3 {
             margin: 0;
+            font-size: 1.5rem;
         }
 
-        .nav-links a {
-            color: #333;
-            text-decoration: none;
-            font-weight: bold;
-            padding: 8px 15px;
-            transition: background 0.3s ease;
+        .header div {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
         }
 
-        .nav-links a:hover {
-            background: #f56a6a;
-            color: #fff;
-            border-radius: 5px;
-        }
-
-        .hamburger {
-            display: none;
-            font-size: 24px;
+        .header div span,
+        .header .contact-btn {
             cursor: pointer;
-            color: #333;
+            font-size: 1rem;
         }
 
-        .navbar-menu {
-            display: flex;
-            gap: 20px;
+        .header .contact-btn {
+            padding: 0.5rem 1rem;
+            background-color: #32AA27;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
         }
 
-        .navbar-menu.active {
-            display: flex;
+        .header .contact-btn:hover {
+            background-color: #289b1f;
         }
 
-        .nav-links {
-            display: flex;
-        }
-
-        .nav-links.hide {
-            display: none;
-        }
-
-        @media (max-width: 768px) {
-            .navbar {
-                padding: 20px 10px;
-            }
-
-            .navbar-menu {
-                display: none;
-                flex-direction: column;
-                width: 100%;
-                background: rgba(255, 255, 255, 0.9);
-                position: absolute;
-                top: 70px;
-                left: 0;
-                padding: 20px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            }
-
-            .navbar-menu.active {
-                display: flex;
-            }
-
-            .hamburger {
-                display: block !important;
-            }
-
-            .nav-links {
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .nav-links a {
-                padding: 10px;
-                font-size: 18px;
-            }
-        }
-
-        .hero-section {
-            background: url('https://woody.cloudly.space/app/uploads/montpelliertourisme/2022/11/thumbs/hotel-g0bd5f5a49_1920-1200x1200-crop-1677841463.jpg') no-repeat center center/cover;
-            height: 100vh;
-            color: #fff;
-            display: flex;
+        .c1 {
+    position: relative;
+    background-image: url('https://cdn.b12.io/media/bb689be6-3cab-11e8-bbb9-0242ac11000f-jpeg-hero_image.jpeg');
+    background-size: cover;
+    background-position: center;
+   
+    height: 80vh;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    color: white;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
-            text-align: center;
-            position: relative;
-            padding: 0 20px;
+}
+
+.c1::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust the alpha value for desired darkness */
+    border-radius: 8px;
+    z-index: 1;
+}
+
+.c1 h1, .c1 h4, .c1 button {
+    position: relative;
+    z-index: 2;
+}
+
+        .inner-c1
+        {
+           
+            padding-top: 3rem;
+            width: 70%;
+            margin: auto;
+            text-align: left;
+            padding-left: 2rem;
         }
 
-        .hero-content {
-            width: 60%;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.6);
-            border-radius: 10px;
-            margin-bottom: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-evenly;
-            align-items: center;
-        }
-
-        .hero-content h1 {
+        .inner-c1 h1 {
             font-size: 3rem;
-            margin: 0;
+            margin-bottom: 0.5rem;
         }
 
-        .hero-content p {
-            font-size: 1.2rem;
-            margin: 10px 0;
+        .inner-c1 h4 {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
         }
 
-        .btn-primary {
-            background-color: #f56a6a;
-            color: #fff;
-            padding: 10px 20px;
+        .inner-c1 button {
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
             border: none;
-            border-radius: 5px;
+            border-radius: 2px;
+            background-color: #32AA27;
+            color: white;
             cursor: pointer;
-            text-decoration: none;
-            font-size: 1.2rem;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s;
         }
 
-        .btn-primary:hover {
-            background-color: #e04a4a;
+        .inner-c1 button:hover {
+            background-color: #289b1f;
         }
 
-        .read-more {
-            display: none;
+        .c2 {
+            display: flex;
+            flex-direction: row;
+            gap: 2rem;
+            margin-top: 4rem;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 8px;
+           
+            width: 70%;
+            box-sizing: border-box;
+            height: 70vh;
         }
 
-        .read-more-btn {
-            color: #f56a6a;
-            cursor: pointer;
+        .c2 h3 {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+            margin-top: 0;
+        }
+
+        .c2 p {
+            margin: 0;
+            line-height: 1.5;
+            color: #666;
+            padding-right: 2rem;
+        }
+
+        .c2 img {
+           
+            object-fit: cover;
+            
+            width: 100%;
+        }
+
+        .c3 {
+            margin-top: 2rem;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .inner-c3
+        {
+            width: 70%;
+            margin: auto;
+        }
+
+        .inner-c3 h4 {
+            margin-bottom: 2rem;
+            
+        }
+
+        .inner-c3 div {
+            width: 100% !important;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            width: 100% !important;
+            box-sizing: border-box;
+        }
+
+        .inner-c3 div div {
+            width: 30%;
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .inner-c3 div div img {
+            width: 100%;
+            border-radius: 8px;
+            height: 150px;
+            object-fit: cover;
+            margin-bottom: 1rem;
+        }
+
+        .inner-c3 div div h6 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: #007bff;
+        }
+
+        .inner-c3 div div p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .c4 {
+            margin-top: 2rem;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 2rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .c4 form {
+            flex: 1;
+            box-sizing: border-box;
+        }
+
+        .c4 form label {
             font-weight: bold;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+            color: #333;
+        }
+
+        .c4 form input,
+        .c4 form textarea {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .c4 form button {
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .c4 form button:hover {
+            background-color: #0069d9;
+        }
+
+        .c4 div:nth-child(2) {
+            flex: 1;
+        }
+
+        .c4 h5 {
+            margin-top: 0;
+            color: #007bff;
+        }
+
+        .c4 div span {
+            display: block;
+            margin-bottom: 1rem;
+            color: #666;
+        }
+
+        .c4 div i {
+            margin-right: 0.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .c2 {
+                flex-direction: row;
+            }
+
+            .c2 div:first-child {
+                flex: 1;
+            }
+
+            .c2 div:last-child {
+                flex: 1;
+            }
+
+            .c3 div div {
+                width: 28%;
+            }
+
+            .c4 {
+                flex-direction: row;
+            }
+
+            .c4 form {
+                margin-right: 2rem;
+            }
         }
 
         @media (max-width: 768px) {
-            .hero-content {
-                width: 80%;
+            .c2 img {
+                max-height: 200px;
             }
 
-            .read-more {
-                display: inline;
-            }
-
-            .read-more-content {
-                display: none;
-            }
-        }
-
-        @media (min-width: 769px) {
-            .read-more {
-                display: none;
+            .c3 div div {
+                width: 100%;
             }
         }
     </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <nav class="navbar">
-        <div class="logo">StayEase</div>
-        <div class="hamburger"><i class="fas fa-bars"></i></div>
-        <ul class="nav-links navbar-menu">
-            <li><a href="#about">About Us</a></li>
-            <li><a href="/listings">Explore</a></li>
-            <li><a href="/login">Login</a></li>
-            <li><a href="/signup">Signup</a></li>
-        </ul>
-    </nav>
-
-    <header class="hero-section">
-        <div class="hero-content" data-aos="fade-up">
-            <h1>StayEase</h1>
-            <p>Your Perfect Stay Awaits</p>
-            <p style="font-size: 1.1rem; line-height: 1.6; color:white; text-align: center; margin: 20px 0;">
-                At StayEase, we believe in providing our guests with the ultimate comfort and luxury experience.
-                <span class="read-more-content">Nestled in the heart of the city, our hotel offers a serene escape with
-                    modern amenities and exceptional service. Each room is meticulously designed to cater to your needs,
-                    featuring plush bedding, high-speed internet, and breathtaking views.</span>
-                <span class="read-more">... <span class="read-more-btn">Read More</span></span>
-            </p>
-            <a href="/listings" class="btn-primary">Explore It</a>
+    <div class="main">
+        <div class="header">
+            <h3>STAYEASE</h3>
+            <div>
+                <span>Home</span><span>About</span><span>Services</span>
+                <button class="contact-btn">Contact</button>
+            </div>
         </div>
-    </header>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-    <script>
-        AOS.init();
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const hamburger = document.querySelector('.hamburger');
-            const navLinks = document.querySelector('.navbar-menu');
-
-            hamburger.addEventListener('click', function () {
-                navLinks.classList.toggle('active');
-                hamburger.classList.toggle('is-active');
-            });
-        });
-
-
-        const readMoreBtn = document.querySelector('.read-more-btn');
-        const readMoreContent = document.querySelector('.read-more-content');
-        const readMore = document.querySelector('.read-more');
-
-        readMoreBtn.addEventListener('click', () => {
-            if (readMoreContent.style.display === "none" || readMoreContent.style.display === "") {
-                readMoreContent.style.display = "inline";
-                readMoreBtn.textContent = "Read Less";
-            } else {
-                readMoreContent.style.display = "none";
-                readMoreBtn.textContent = "Read More";
-            }
-        });
-    </script>
+        <div class="c1">
+            <div class="inner-c1">
+                <h1>StayEase</h1>
+            <h4>Discover, book, and manage your perfect stay with StayEase.</h4>
+            <button>VIEW SERVICES</button>
+            </div>
+        </div>
+        <div class="c2" >
+            <div style="height: 100%; display: flex; flex-direction: column; justify-content: center;">
+                <p style="font-size: 1.2rem; margin-bottom: 0.8rem; color: #32AA27;">Discover StayEase</p>
+                <h3>Your gateway to seamless bookings</h3>
+                <p>StayEase is revolutionizing the way you find your perfect accommodation in Pune. With our user-friendly
+                    platform, guests can easily search for properties, make bookings, and explore nearby hotels using an
+                    integrated map. Property owners can list their spaces effortlessly, ensuring a smooth experience for
+                    both guests and hosts. Enjoy a hassle-free stay with StayEase, where comfort meets convenience.</p>
+            </div>
+            <div  style="height: 100%;">
+                <img  src="https://cdn.b12.io/client_media/ZVAXFXpm/5e31b70a-5bee-11ef-89c7-0242ac110002-jpg-hero_image.jpeg" style="height: 100%;" alt="StayEase Image">
+            </div>
+        </div>
+        <div class="c3">
+            <div class="inner-c3">
+            <h5>Our Services</h5>
+            <h4>Explore what we offer</h4>
+            <div >
+                <div >
+                    <img src="https://images.unsplash.com/photo-1560114928-40a38d486b33?ixid=MnwzNjUyOXwwfDF8c2VhcmNofDI0fHxob3RlbHxlbnwwfHx8fDE2OTIzNjYwMzk&ixlib=rb-1.2.1&w=1000&q=80" alt="Service 1">
+                    <h6>Hotel Booking</h6>
+                    <p>Book hotels at your favorite destinations with ease and convenience through our platform.</p>
+                </div>
+                <div >
+                    <img src="https://images.unsplash.com/photo-1600932711714-1fef7c08525a?ixid=MnwzNjUyOXwwfDF8c2VhcmNofDJ8fGhvdGVsfGVufDB8fHx8MTY5MjM2NjA0Mw&ixlib=rb-1.2.1&w=1000&q=80" alt="Service 2">
+                    <h6>Property Listing</h6>
+                    <p>List your property with StayEase to reach more potential guests and manage bookings seamlessly.</p>
+                </div>
+                <div >
+                    <img src="https://images.unsplash.com/photo-1602010121807-07d90394e4c3?ixid=MnwzNjUyOXwwfDF8c2VhcmNofDV8fGhvdGVsfGVufDB8fHx8MTY5MjM2NjA0Mw&ixlib=rb-1.2.1&w=1000&q=80" style="object-fit: cover;" alt="Service 3">
+                    <h6>Customer Support</h6>
+                    <p>We're here to help with any questions or issues you might have, 24/7.</p>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="c4">
+            <form action="">
+                <h3>Contact Us</h3>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email">
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" rows="5"></textarea>
+                <button type="submit">Send</button>
+            </form>
+            <div>
+                <h5>Contact Information</h5>
+                <span><i class="fas fa-map-marker-alt"></i> 123 StayEase St, Pune, MH, India</span>
+                <span><i class="fas fa-phone"></i> +91 98765 43210</span>
+                <span><i class="fas fa-envelope"></i> contact@stayease.com</span>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>
