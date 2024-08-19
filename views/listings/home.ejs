@@ -53,10 +53,12 @@
             font-size: 1rem;
         }
 
-        .header .contact-btn {
+         .contact-btn {
+            width: 7rem;
             padding: 0.5rem 1rem;
-            background-color: #32AA27;
-            color: white;
+            background-color: white;
+            box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 1px;
+            color: black;
             border: none;
             border-radius: 4px;
             transition: background-color 0.3s;
@@ -64,6 +66,7 @@
 
         .header .contact-btn:hover {
             background-color: #289b1f;
+            color: white;
         }
 
         .c1 {
@@ -110,7 +113,8 @@
         }
 
         .inner-c1 h1 {
-            font-size: 3rem;
+            font-size: 4rem;
+            font-weight: 700;
             margin-bottom: 0.5rem;
         }
 
@@ -169,24 +173,30 @@
         }
 
         .c3 {
+            margin-bottom: 2rem;
             margin-top: 2rem;
             padding: 1rem;
-            background-color: white;
+           height: 70vh;
             border-radius: 8px;
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
             text-align: center;
             width: 100%;
             box-sizing: border-box;
+            background-color: #EEF1EF;
+            display: flex;
+            align-items: center;
         }
         .inner-c3
         {
             width: 70%;
             margin: auto;
+          
         }
 
-        .inner-c3 h4 {
+        .inner-c3 h2 {
+            font-weight: 700;
             margin-bottom: 2rem;
-            
+           text-align: left;
         }
 
         .inner-c3 div {
@@ -200,30 +210,33 @@
         }
 
         .inner-c3 div div {
-            width: 30%;
+            width: 30% !important;
+            height: 21rem;
             background-color: #f8f9fa;
-            padding: 1rem;
-            border-radius: 8px;
+            padding: 0 !important;
+            
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
+            text-align: left;
             box-sizing: border-box;
         }
 
         .inner-c3 div div img {
             width: 100%;
-            border-radius: 8px;
+          height: 60% !important;
             height: 150px;
             object-fit: cover;
-            margin-bottom: 1rem;
+           
         }
 
         .inner-c3 div div h6 {
+            text-align: left;
             font-size: 1.25rem;
-            margin-bottom: 0.5rem;
-            color: #007bff;
+          
+            
         }
 
         .inner-c3 div div p {
+            text-align: left;
             color: #666;
             font-size: 0.95rem;
         }
@@ -232,14 +245,10 @@
             margin-top: 2rem;
             padding: 2rem;
             background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 2rem;
             width: 100%;
             box-sizing: border-box;
+            width: 70%;
+            margin: auto;
         }
 
         .c4 form {
@@ -278,18 +287,9 @@
             background-color: #0069d9;
         }
 
-        .c4 div:nth-child(2) {
-            flex: 1;
-        }
-
-        .c4 h5 {
-            margin-top: 0;
-            color: #007bff;
-        }
-
         .c4 div span {
             display: block;
-            margin-bottom: 1rem;
+          
             color: #666;
         }
 
@@ -332,17 +332,69 @@
                 width: 100%;
             }
         }
+        .f-info-links a
+{
+    text-decoration: none;
+    color: #222222;
+}
+.f-info-links a:hover
+{
+    text-decoration:underline;
+}
+.f-info
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: #ebebeb;
+    height: 10rem;
+   
+}
+
+.links {
+    position: relative; 
+    color: #000; 
+    transition: color 0.3s ease-in-out;
+}
+
+.links::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px; 
+    background-color: #32AA27; 
+    left: 0;
+    bottom: -6px; 
+    transform: scaleY(0); 
+    transform-origin: bottom; 
+    transition: transform 0.3s ease-in-out;
+}
+
+.links:hover {
+    color: #32AA27; /* Change link color to green on hover */
+}
+
+.links:hover::after {
+    transform: scaleY(1); /* Full underline on hover */
+}
+
+
+
     </style>
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
 </head>
 
 <body>
     <div class="main">
         <div class="header">
-            <h3>STAYEASE</h3>
+            <h3 style="font-weight: 800; font-size: 1.6rem; cursor: pointer;">STAYEASE</h3>
             <div>
-                <span>Home</span><span>About</span><span>Services</span>
+                <span class="links">Home</span><span class="links">About</span><span class="links">Services</span>
                 <button class="contact-btn">Contact</button>
             </div>
         </div>
@@ -350,7 +402,7 @@
             <div class="inner-c1">
                 <h1>StayEase</h1>
             <h4>Discover, book, and manage your perfect stay with StayEase.</h4>
-            <button>VIEW SERVICES</button>
+            <button style="font-weight: 700;">VIEW SERVICES</button>
             </div>
         </div>
         <div class="c2" >
@@ -368,45 +420,103 @@
         </div>
         <div class="c3">
             <div class="inner-c3">
-            <h5>Our Services</h5>
-            <h4>Explore what we offer</h4>
-            <div >
-                <div >
-                    <img src="https://images.unsplash.com/photo-1560114928-40a38d486b33?ixid=MnwzNjUyOXwwfDF8c2VhcmNofDI0fHxob3RlbHxlbnwwfHx8fDE2OTIzNjYwMzk&ixlib=rb-1.2.1&w=1000&q=80" alt="Service 1">
-                    <h6>Hotel Booking</h6>
-                    <p>Book hotels at your favorite destinations with ease and convenience through our platform.</p>
+            <h5 style="text-align: left; color: #32AA27;" class="mb-3">Our Services</h5>
+            <h2>Explore what we offer</h2>
+            <div class="row">
+                <div class="col-md-4 col-sm-12 card">
+                    <img src="https://cdn.b12.io/client_media/ZVAXFXpm/5fad6f34-5bee-11ef-ac8f-0242ac110002-jpg-regular_image.jpeg" alt="Service 1">
+                    <h6 style="text-align: left !important; width: 100% !important; margin-left: 0.5rem;">Guest Booking</h6>
+                    <p style="text-align: left !important; width: 100% !important; margin-left: 0.5rem;">Book your stay easily with just few clicks.</p>
                 </div>
-                <div >
-                    <img src="https://images.unsplash.com/photo-1600932711714-1fef7c08525a?ixid=MnwzNjUyOXwwfDF8c2VhcmNofDJ8fGhvdGVsfGVufDB8fHx8MTY5MjM2NjA0Mw&ixlib=rb-1.2.1&w=1000&q=80" alt="Service 2">
-                    <h6>Property Listing</h6>
-                    <p>List your property with StayEase to reach more potential guests and manage bookings seamlessly.</p>
+                <div class="col-md-4 col-sm-12 card">
+                    <img src="https://cdn.b12.io/client_media/ZVAXFXpm/5f413ada-5bee-11ef-ac8f-0242ac110002-jpg-regular_image.jpeg" alt="Service 2">
+                    <h6 style="text-align: left !important; width: 100% !important; margin-left: 0.5rem;">Property Listing</h6>
+                    <p style="text-align: left !important; width: 100% !important; margin-left: 0.5rem;">Easily list your property for potential guests to discover.</p>
                 </div>
-                <div >
-                    <img src="https://images.unsplash.com/photo-1602010121807-07d90394e4c3?ixid=MnwzNjUyOXwwfDF8c2VhcmNofDV8fGhvdGVsfGVufDB8fHx8MTY5MjM2NjA0Mw&ixlib=rb-1.2.1&w=1000&q=80" style="object-fit: cover;" alt="Service 3">
-                    <h6>Customer Support</h6>
-                    <p>We're here to help with any questions or issues you might have, 24/7.</p>
+                <div class="col-md-4 col-sm-12 card">
+                    <img src="https://cdn.b12.io/client_media/ZVAXFXpm/5f95fb7e-5bee-11ef-ac8f-0242ac110002-jpg-regular_image.jpeg" style="object-fit: cover;" alt="Service 3">
+                    <h6 style="text-align: left !important; width: 100% !important; margin-left: 0.5rem;">Customer Support</h6>
+                    <p style="text-align: left !important; width: 100% !important; margin-left: 0.5rem;">We're here to help with any questions or issues you might have, 24/7.</p>
                 </div>
             </div>
             </div>
         </div>
-        <div class="c4">
+        <div class="row c4 mb-4">
+           <div class="col-lg-6 col-12">
             <form action="">
-                <h3>Contact Us</h3>
+                <p class="mb-2" style="font-weight: 700; color: #32AA27;">GET IN TOUCH</p>
+                <h3 class="mb-3">We'd love to hear from you!</h3>
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name">
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email">
                 <label for="message">Message:</label>
                 <textarea id="message" name="message" rows="5"></textarea>
-                <button type="submit">Send</button>
+                <button type="submit" style="background-color: #32AA27; color: white; width: 100%;">Submit</button>
             </form>
-            <div>
-                <h5>Contact Information</h5>
-                <span><i class="fas fa-map-marker-alt"></i> 123 StayEase St, Pune, MH, India</span>
-                <span><i class="fas fa-phone"></i> +91 98765 43210</span>
-                <span><i class="fas fa-envelope"></i> contact@stayease.com</span>
+           </div>
+            <div class="col-lg-6 col-12 xxy" style="background-color:#EEF1EF; padding-top: 3rem; ">
+                
+                <div class="mb-3" >
+                    <h5 style="font-weight: 700;">Get in touch</h5>
+                    <div style="display: flex; align-items: center; cursor: pointer;">
+                        <i class="fa-regular fa-envelope"></i>
+                        <span>koushal9424@gmail.com</span>
+                    </div>
+                </div>
+                <div class="mb-3" style="cursor: pointer;">
+                    <h5 style="font-weight: 700;">Location</h5>
+                    <div style="display: flex; align-items: center; cursor: pointer;">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span>Pune,MH IN</span>
+                    </div>
+                </div>
+                <div >
+                    <h5 style="font-weight: 700;">Hours</h5>
+                    <div style="width: 90%;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Monday</span> <span>  9:00am	–	10:00pm</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Tuesday</span> <span>  9:00am	–	10:00pm</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Wednesday</span> <span>  9:00am	–	10:00pm</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Thursday</span> <span>  9:00am	–	10:00pm</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Friday</span> <span>  9:00am	–	10:00pm</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Saturday</span> <span>  9:00am	–	10:00pm</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Sunday</span> <span>  9:00am	–	10:00pm</span>
+                        </div>
+
+                    </div>
+                </div>
             </div>
         </div>
+
+        <footer style="width: 100%;">
+            <div class="f-info" >
+                <div class="f-info-socials" style="font-size: 1.4rem;">
+                    <i class="fa-brands fa-facebook"></i>&nbsp;
+                    <i class="fa-brands fa-square-instagram"></i>&nbsp;
+                    <i class="fa-brands fa-linkedin"></i>
+                </div>
+                <div>&copy;StayEase Private Limited</div>
+                <div class="f-info-links">
+                    <a href="/privacy">Privacy</a>
+                    <a href="/terms">Terms</a>
+                </div>
+            </div>
+        </footer>
+       
+        
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
