@@ -5,147 +5,139 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StayEase</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #333;
-            background-color: #f8f9fa;
+        
+       
+        nav.navbar {
+            width: 100%;
+            
+            position: fixed;
+            top: 0;
+            left: 0;
+            
+            z-index: 10;
+            background-color: rgba(255, 255, 255, 0.9); 
+            backdrop-filter: blur(10px); 
+            transition: background-color 0.3s, backdrop-filter 0.3s;
+            padding: 1rem 0;
         }
 
-        .main {
+        nav.navbar.scrolled {
+            background-color: #fff; 
+            backdrop-filter: none;
+        }
+
+        .nav-link {
+            color: #000;
+            text-decoration: none;
+            padding: 10px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .nav-link:hover {
+            color: #32AA27;
+        }
+
+        .nav-link::after {
+            content: "";
+            display: block;
+            width: 0;
+            height: 2px;
+            background-color: #32AA27;
+            transition: width 0.3s ease;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .contact-link {
+            display: none;
+        }
+
+        .navbar-nav .nav-item {
+            margin-right: 20px;
+        }
+
+        .navbar-nav .nav-item:last-child {
+            margin-right: 0;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-nav {
+                flex-direction: column;
+               
+            }
+
+            .collapse.navbar-collapse {
+                position: fixed;
+                top: 56px; 
+                left: 0;
+                right: 0;
+                background-color: rgba(255, 255, 255, 0.9);
+                z-index: 11;
+                transition: transform 0.3s ease;
+                transform: translateY(-100%);
+            }
+
+            .collapse.show {
+                transform: translateY(0);
+            }
+
+            .contact-link {
+                display: block;
+            }
+
+            .contact-btn {
+                display: none;
+            }
+        }
+
+        
+        .c1 {
+            position: relative;
+            background-image: url('https://cdn.b12.io/media/bb689be6-3cab-11e8-bbb9-0242ac11000f-jpeg-hero_image.jpeg');
+            background-size: cover;
+            background-position: center;
+            height: 80vh;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            color: white;
+            width: 100%;
+            box-sizing: border-box;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            width: 100%;
-            max-width: 100%;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            justify-content: center;
+            margin-top: 56px; 
         }
 
-        .header {
-    width: 100%;
-    padding: 1.7rem 2rem;
-    max-width: 70%;
-    border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-sizing: border-box;
-    position: relative;
-}
+        .c1::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            z-index: 1;
+        }
 
-.header-title {
-    margin: 0;
-    font-size: 1.6rem;
-    font-weight: 800;
-    cursor: pointer;
-}
+        .c1 h1,
+        .c1 h4,
+        .c1 button {
+            position: relative;
+            z-index: 2;
+        }
 
-.nav-links {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-}
-
-.links,
-.contact-btn {
-    cursor: pointer;
-    font-size: 1rem;
-}
-
-.contact-btn {
-    width: 7rem;
-    padding: 0.5rem 1rem;
-    background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 1px;
-    color: black;
-    border: none;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-}
-
-.contact-btn:hover {
-    background-color: #289b1f;
-    color: white;
-}
-
-.toggle-btn {
-    display: none;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-}
-
-/* Responsive styles */
-@media screen and (max-width: 768px) {
-    .nav-links {
-        display: none;
-        flex-direction: column;
-        gap: 1rem;
-        background-color: #fff;
-        padding: 1rem;
-        position: absolute;
-        top: 100%;
-        right: 0;
-        width: 200px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        border-radius: 8px;
-    }
-
-    .toggle-btn {
-        display: block;
-    }
-
-    .nav-links.active {
-        display: flex;
-    }
-}
-
-
-
-
-
-
-        .c1 {
-    position: relative;
-    background-image: url('https://cdn.b12.io/media/bb689be6-3cab-11e8-bbb9-0242ac11000f-jpeg-hero_image.jpeg');
-    background-size: cover;
-    background-position: center;
-   
-    height: 80vh;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    color: white;
-    width: 100%;
-    box-sizing: border-box;
-    display: flex;
-            flex-direction: column;
-            justify-content: center;
-}
-
-.c1::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Adjust the alpha value for desired darkness */
-    border-radius: 8px;
-    z-index: 1;
-}
-
-.c1 h1, .c1 h4, .c1 button {
-    position: relative;
-    z-index: 2;
-}
-
-        .inner-c1
-        {
-           
+        .inner-c1 {
             padding-top: 3rem;
             width: 70%;
             margin: auto;
@@ -174,119 +166,94 @@
             cursor: pointer;
             transition: background-color 0.3s;
         }
+        .inner-container-fluid
+        {
+            width: 70%;
+            margin: auto;
+        }
 
         .inner-c1 button:hover {
             background-color: #289b1f;
         }
-
-        .c2 {
-            display: flex;
-            flex-direction: row;
-            gap: 2rem;
-            margin-top: 4rem;
-            padding: 1rem;
-            background-color: white;
-            border-radius: 8px;
-           
-            width: 70%;
-            box-sizing: border-box;
-            height: 70vh;
-        }
-
-        .c2 h3 {
-            font-size: 1.75rem;
-            margin-bottom: 1rem;
-            margin-top: 0;
-        }
-
-        .c2 p {
-            margin: 0;
-            line-height: 1.5;
-            color: #666;
-            padding-right: 2rem;
-        }
-
-        .c2 img {
-           
-            object-fit: cover;
-            
-            width: 100%;
-        }
-
-        .c3 {
-            margin-bottom: 2rem;
-            margin-top: 2rem;
-            padding: 1rem;
-           height: 70vh;
-            border-radius: 8px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 100%;
-            box-sizing: border-box;
-            background-color: #EEF1EF;
-            display: flex;
-            align-items: center;
-        }
-        .inner-c3
+        .c2
         {
             width: 70%;
             margin: auto;
-          
-        }
-
-        .inner-c3 h2 {
-            font-weight: 700;
-            margin-bottom: 2rem;
-           text-align: left;
-        }
-
-        .inner-c3 div {
-            width: 100% !important;
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            width: 100% !important;
-            box-sizing: border-box;
-        }
-
-        .inner-c3 div div {
-            width: 30% !important;
-            height: 21rem;
-            background-color: #f8f9fa;
-            padding: 0 !important;
-            
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: left;
-            box-sizing: border-box;
-        }
-
-        .inner-c3 div div img {
-            width: 100%;
-          height: 60% !important;
-            height: 150px;
-            object-fit: cover;
            
         }
-
-        .inner-c3 div div h6 {
-            text-align: left;
-            font-size: 1.25rem;
-          
-            
+        .c3
+        {
+            width: 70%;
+            margin: auto;
+        }
+        .card
+        {
+            width: 30%;
+            margin-right: 1.5rem;
+            margin-bottom: 2rem;
+            padding: 0 !important;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            min-width: 220px;
         }
 
-        .inner-c3 div div p {
-            text-align: left;
-            color: #666;
-            font-size: 0.95rem;
+        @media (max-width: 768px) {
+            .inner-container-fluid{
+                width: 100%; 
+            }
+            .card
+            {
+                width: 80%;
+            }
+            .c2
+            {
+                width: 100%;
+            }
+            .inner-c1 {
+                padding-left: 1rem;
+                width: 100%;
+            }
+
+            .inner-c1 h1 {
+                font-size: 3rem;
+            }
+
+            .inner-c1 h4 {
+                font-size: 1.25rem;
+            }
+
+            .inner-c1 button {
+                font-size: 0.875rem;
+            }
+            .c3
+            {
+                width: 100%;
+                
+            }
+            .c4 
+            {
+                width: 100% !important;
+                margin: 0% !important;
+               
+            }
+           
         }
+        .card:hover
+        {
+            transform: scale(1.05);
+        }
+        .card:hover h6
+        {
+            color: #32AA27;
+        }
+
+
 
         .c4 {
             margin-top: 2rem;
-            padding: 2rem;
+            /* padding: 2rem; */
             background-color: white;
-            width: 100%;
+            
             box-sizing: border-box;
             width: 70%;
             margin: auto;
@@ -338,41 +305,6 @@
             margin-right: 0.5rem;
         }
 
-        @media (min-width: 768px) {
-            .c2 {
-                flex-direction: row;
-            }
-
-            .c2 div:first-child {
-                flex: 1;
-            }
-
-            .c2 div:last-child {
-                flex: 1;
-            }
-
-            .c3 div div {
-                width: 28%;
-            }
-
-            .c4 {
-                flex-direction: row;
-            }
-
-            .c4 form {
-                margin-right: 2rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .c2 img {
-                max-height: 200px;
-            }
-
-            .c3 div div {
-                width: 100%;
-            }
-        }
         .f-info-links a
 {
     text-decoration: none;
@@ -393,65 +325,56 @@
    
 }
 
-.links {
-    position: relative; 
-    color: #000; 
-    transition: color 0.3s ease-in-out;
-}
 
-.links::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 2px; 
-    background-color: #32AA27; 
-    left: 0;
-    bottom: -6px; 
-    transform: scaleY(0); 
-    transform-origin: bottom; 
-    transition: transform 0.3s ease-in-out;
-}
-
-.links:hover {
-    color: #32AA27; 
-}
-
-.links:hover::after {
-    transform: scaleY(1); 
-}
-
-
-
+       
+        
     </style>
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
 </head>
 
 <body>
-    <div class="main">
-        <div class="header">
-            <h3 class="header-title">STAYEASE</h3>
-            <div class="nav-links">
-                <span class="links">Home</span>
-                <span class="links">About</span>
-                <span class="links">Services</span>
-                <button class="contact-btn">Contact</button>
-            </div>
-            <button class="toggle-btn">&#9776;</button>
-        </div>
+    <div class="container-fluid">
         
-        <div class="c1">
+        <div class="d-flex flex-column align-items-center pt-2 mb-2 " >
+            <nav class="navbar navbar-expand-md navbar-light bg-light pr-2">
+                <div class="container-fluid inner-container-fluid" >
+                    <a class="navbar-brand fw-bold" style="font-size: 1.5rem;" href="#">STAYEASE</a>
+                    <button style="font-size: 1rem;" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page"  style="cursor: pointer;">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link about" style="cursor: pointer;">About</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link services" style="cursor: pointer;">Services</a>
+                            </li>
+                            <li class="nav-item">
+                                <button class="btn btn-outline-dark ms-lg-3 contact-btn" data-bs-target="#contactSection">Contact</button>
+                                <a class="nav-link contact-link"  href="#contactSection">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        
+        <div class="c1 mb-5">
             <div class="inner-c1">
                 <h1>StayEase</h1>
-            <h4>Discover, book, and manage your perfect stay with StayEase.</h4>
-            <button style="font-weight: 700;">VIEW SERVICES</button>
+                <h4>Discover, book, and manage your perfect stay with StayEase.</h4>
+                <form action="/listings">
+                    <button style="font-weight: 700;" >Explore Villa's</button>
+                </form>
             </div>
         </div>
-        <div class="c2" >
-            <div style="height: 100%; display: flex; flex-direction: column; justify-content: center;">
+
+        <div class="c2 row pt-5 pb-5 mb-4" id="aboutSection">
+            <div class="col-md-6 col-12 mb-4" style="display: flex; flex-direction: column; justify-content: center; ">
                 <p style="font-size: 1.2rem; margin-bottom: 0.8rem; color: #32AA27;">Discover StayEase</p>
                 <h3>Your gateway to seamless bookings</h3>
                 <p>StayEase is revolutionizing the way you find your perfect accommodation in Pune. With our user-friendly
@@ -459,92 +382,96 @@
                     integrated map. Property owners can list their spaces effortlessly, ensuring a smooth experience for
                     both guests and hosts. Enjoy a hassle-free stay with StayEase, where comfort meets convenience.</p>
             </div>
-            <div  style="height: 100%;">
-                <img  src="https://cdn.b12.io/client_media/ZVAXFXpm/5e31b70a-5bee-11ef-89c7-0242ac110002-jpg-hero_image.jpeg" style="height: 100%;" alt="StayEase Image">
+            <div class="col-md-6 col-12 mb-4" >
+                <img   src="https://cdn.b12.io/client_media/ZVAXFXpm/5e31b70a-5bee-11ef-89c7-0242ac110002-jpg-hero_image.jpeg" style=" width: 100%; height: 100%;" alt="StayEase Image">
             </div>
         </div>
-        <div class="c3">
-            <div class="inner-c3">
-            <h5 style="text-align: left; color: #32AA27;" class="mb-3">Our Services</h5>
-            <h2>Explore what we offer</h2>
-            <div class="row">
-                <div class="col-md-4 col-sm-12 card">
-                    <img src="https://cdn.b12.io/client_media/ZVAXFXpm/5fad6f34-5bee-11ef-ac8f-0242ac110002-jpg-regular_image.jpeg" alt="Service 1">
-                    <h6 style="text-align: left !important; width: 100% !important; margin-left: 0.5rem;">Guest Booking</h6>
-                    <p style="text-align: left !important; width: 100% !important; margin-left: 0.5rem;">Book your stay easily with just few clicks.</p>
-                </div>
-                <div class="col-md-4 col-sm-12 card">
-                    <img src="https://cdn.b12.io/client_media/ZVAXFXpm/5f413ada-5bee-11ef-ac8f-0242ac110002-jpg-regular_image.jpeg" alt="Service 2">
-                    <h6 style="text-align: left !important; width: 100% !important; margin-left: 0.5rem;">Property Listing</h6>
-                    <p style="text-align: left !important; width: 100% !important; margin-left: 0.5rem;">Easily list your property for potential guests to discover.</p>
-                </div>
-                <div class="col-md-4 col-sm-12 card">
-                    <img src="https://cdn.b12.io/client_media/ZVAXFXpm/5f95fb7e-5bee-11ef-ac8f-0242ac110002-jpg-regular_image.jpeg" style="object-fit: cover;" alt="Service 3">
-                    <h6 style="text-align: left !important; width: 100% !important; margin-left: 0.5rem;">Customer Support</h6>
-                    <p style="text-align: left !important; width: 100% !important; margin-left: 0.5rem;">We're here to help with any questions or issues you might have, 24/7.</p>
-                </div>
-            </div>
-            </div>
-        </div>
-        <div class="row c4 mb-4">
-           <div class="col-lg-6 col-12">
-            <form action="">
-                <p class="mb-2" style="font-weight: 700; color: #32AA27;">GET IN TOUCH</p>
-                <h3 class="mb-3">We'd love to hear from you!</h3>
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email">
-                <label for="message">Message:</label>
-                <textarea id="message" name="message" rows="5"></textarea>
-                <button type="submit" style="background-color: #32AA27; color: white; width: 100%;">Submit</button>
-            </form>
-           </div>
-            <div class="col-lg-6 col-12 xxy" style="background-color:#EEF1EF; padding-top: 3rem; ">
-                
-                <div class="mb-3" >
-                    <h5 style="font-weight: 700;">Get in touch</h5>
-                    <div style="display: flex; align-items: center; cursor: pointer;">
-                        <i class="fa-regular fa-envelope"></i>
-                        <span>koushal9424@gmail.com</span>
-                    </div>
-                </div>
-                <div class="mb-3" style="cursor: pointer;">
-                    <h5 style="font-weight: 700;">Location</h5>
-                    <div style="display: flex; align-items: center; cursor: pointer;">
-                        <i class="fa-solid fa-location-dot"></i>
-                        <span>Pune,MH IN</span>
-                    </div>
-                </div>
-                <div >
-                    <h5 style="font-weight: 700;">Hours</h5>
-                    <div style="width: 90%;">
-                        <div style="display: flex; justify-content: space-between;">
-                            <span>Monday</span> <span>  9:00am	–	10:00pm</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between;">
-                            <span>Tuesday</span> <span>  9:00am	–	10:00pm</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between;">
-                            <span>Wednesday</span> <span>  9:00am	–	10:00pm</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between;">
-                            <span>Thursday</span> <span>  9:00am	–	10:00pm</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between;">
-                            <span>Friday</span> <span>  9:00am	–	10:00pm</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between;">
-                            <span>Saturday</span> <span>  9:00am	–	10:00pm</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between;">
-                            <span>Sunday</span> <span>  9:00am	–	10:00pm</span>
-                        </div>
 
-                    </div>
+
+        <div class="c3 mb-4 p-2" id="serviceSection">
+            <div class="inner-c3">
+            <h5 style="text-align: left; color: #32AA27;" >Our Services</h5>
+            <h2 class="mb-4">Explore what we offer</h2>
+            <div class="row" style="margin: auto;">
+                <div class="card mb-3" >
+                    <img style="height: 60%;" class="mb-2"  src="https://cdn.b12.io/client_media/ZVAXFXpm/5fad6f34-5bee-11ef-ac8f-0242ac110002-jpg-regular_image.jpeg" alt="Service 1">
+                    <a  style="text-decoration: none;"><h6 class="mb-3" style="text-align: left !important; width: 100% !important; margin-left: 0.5rem;">Guest Booking </h6></a>
+                    <p style="text-align: left !important;  width: 95% !important; margin-left: 0.5rem;">Book your stay easily with just few clicks.</p>
+                </div>
+                <div class="card mb-3" >
+                    <img style="height: 60%;"  class="mb-2" src="https://cdn.b12.io/client_media/ZVAXFXpm/5f413ada-5bee-11ef-ac8f-0242ac110002-jpg-regular_image.jpeg" alt="Service 2">
+                    <a style="text-decoration: none;"> <h6 class="mb-3" style="text-align: left !important; width: 100% !important; margin-left: 0.5rem;">Property Listing</h6></a>
+                    <p style="text-align: left !important; width: 95% !important; margin-left: 0.5rem;">Easily list your property for potential guests to discover.</p>
+                </div>
+                <div class="card mb-3">
+                    <img style="height: 60%;"   class="mb-2"src="https://cdn.b12.io/client_media/ZVAXFXpm/5f95fb7e-5bee-11ef-ac8f-0242ac110002-jpg-regular_image.jpeg" style="object-fit: cover;" alt="Service 3">
+                    <a style="text-decoration: none;"><h6 class="mb-3" style="text-align: left !important; width: 100% !important; margin-left: 0.5rem;">Explore Nearby Hotels on Map</h6></a>
+                    <p style="text-align: left !important; width: 95% !important; margin-left: 0.5rem;">Effortlessly find the perfect stay with our interactive map feature. </p>
                 </div>
             </div>
+            </div>
         </div>
+
+
+        <div class="row c4 mb-4" id="contactSection">
+            <div class="col-lg-6 col-12 mb-4">
+             <form action="">
+                 <p class="mb-2" style="font-weight: 700; color: #32AA27;">GET IN TOUCH</p>
+                 <h3 class="mb-3">We'd love to hear from you!</h3>
+                 <label for="name">Name:</label>
+                 <input type="text" id="name" name="name">
+                 <label for="email">Email:</label>
+                 <input type="email" id="email" name="email">
+                 <label for="message">Message:</label>
+                 <textarea id="message" name="message" rows="5"></textarea>
+                 <button type="submit" style="background-color: #32AA27; color: white; width: 100%;">Submit</button>
+             </form>
+            </div>
+             <div class="col-lg-6 col-12 xxy mb-3" style="background-color:#EEF1EF; padding-top: 3rem; ">
+                 
+                 <div class="mb-3" >
+                     <h5 style="font-weight: 700;">Get in touch</h5>
+                     <div style="display: flex; align-items: center; cursor: pointer;">
+                         <i class="fa-regular fa-envelope"></i>
+                         <span>koushal9424@gmail.com</span>
+                     </div>
+                 </div>
+                 <div class="mb-3" style="cursor: pointer;">
+                     <h5 style="font-weight: 700;">Location</h5>
+                     <div style="display: flex; align-items: center; cursor: pointer;">
+                         <i class="fa-solid fa-location-dot"></i>
+                         <span>Pune,MH IN</span>
+                     </div>
+                 </div>
+                 <div class="conatact-information" >
+                     <h5 style="font-weight: 700;">Hours</h5>
+                     <div style="width: 90%;" class="mb-3">
+                         <div style="display: flex; justify-content: space-between;">
+                             <span>Monday</span> <span>  9:00am	–	10:00pm</span>
+                         </div>
+                         <div style="display: flex; justify-content: space-between;">
+                             <span>Tuesday</span> <span>  9:00am	–	10:00pm</span>
+                         </div>
+                         <div style="display: flex; justify-content: space-between;">
+                             <span>Wednesday</span> <span>  9:00am	–	10:00pm</span>
+                         </div>
+                         <div style="display: flex; justify-content: space-between;">
+                             <span>Thursday</span> <span>  9:00am	–	10:00pm</span>
+                         </div>
+                         <div style="display: flex; justify-content: space-between;">
+                             <span>Friday</span> <span>  9:00am	–	10:00pm</span>
+                         </div>
+                         <div style="display: flex; justify-content: space-between;">
+                             <span>Saturday</span> <span>  9:00am	–	10:00pm</span>
+                         </div>
+                         <div style="display: flex; justify-content: space-between;">
+                             <span>Sunday</span> <span>  9:00am	–	10:00pm</span>
+                         </div>
+ 
+                     </div>
+                 </div>
+             </div>
+         </div>
 
         <footer style="width: 100%;">
             <div class="f-info" >
@@ -560,18 +487,42 @@
                 </div>
             </div>
         </footer>
-       
-        
-    </div>
-    <script>
-        document.querySelector('.toggle-btn').addEventListener('click', function() {
-    document.querySelector('.nav-links').classList.toggle('active');
-});
+ 
 
-    </script>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+       
+        window.addEventListener('scroll', function() {
+            var navbar = document.querySelector('nav.navbar');
+            if (window.scrollY > 0) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        document.querySelectorAll('.contact-link, .contact-btn').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent default anchor behavior
+            document.getElementById('contactSection').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+        document.querySelector(".about").addEventListener("click",()=>{
+            document.getElementById('aboutSection').scrollIntoView({
+                behavior: 'smooth'
+            });   
+        })
+        document.querySelector(".services").addEventListener("click",()=>{
+            document.getElementById('serviceSection').scrollIntoView({
+                behavior: 'smooth'
+            });   
+        })
+    });
+    </script>
 </body>
 
 </html>
