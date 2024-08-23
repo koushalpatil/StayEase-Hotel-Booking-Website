@@ -22,6 +22,7 @@ const flash = require('connect-flash');
 const passport = require('passport');
 const LocalStartegy = require('passport-local');
 const User = require('./models/user.js');
+const MongoStore = require('connect-mongo');
 
 app.engine('ejs',ejsMate);
 app.use(methodOverride('_method'));
@@ -30,9 +31,28 @@ app.use(express.static(path.join(__dirname,"/public")));
 app.set("view engine","ejs");
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
+
+
+const dbUrl = process.env.ATLASDB_URL;
+
+const store =  MongoStore.create({
+    mongoUrl: dbUrl,
+    autoRemove: 'native', 
+    crypto:{
+        secret:process.env.SECRET
+    },
+    touchAfter:24*3600
+});
+
+store.on("error",()=>{
+    console.log("Error in mongo session store",err);
+    
+})
+
 app.use(session(
     {
-        secret:"secretcode",
+        store,
+        secret:process.env.SECRET,
         saveUninitialized:true,
         resave:false,
         cookie:{
@@ -42,6 +62,7 @@ app.use(session(
         }
     }
 ));
+
 
 
 //Implementing passport
@@ -72,7 +93,9 @@ app.use("/listings/:id/reviews",reviewRoute);
 app.use("/",userRoute);
 
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+
+
+
 main()
 .then((res)=>{
     console.log("DB connection succesful.");
@@ -82,7 +105,7 @@ main()
 })
 async function main()
 {
-    await mongoose.connect(MONGO_URL);
+    await mongoose.connect(dbUrl);
 }
 
 const port = 3000;
