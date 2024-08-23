@@ -41,6 +41,21 @@
   .reservation-table .guest-name {
     color: #007bff;
   }
+
+  @media screen and (max-width: 768px) {
+    .reservation-table th:nth-child(2),
+    .reservation-table th:nth-child(4),
+    .reservation-table th:nth-child(5),
+    .reservation-table td:nth-child(2),
+    .reservation-table td:nth-child(4),
+    .reservation-table td:nth-child(5) {
+      display: none;
+    }
+
+    .reservation-table th, .reservation-table td {
+      text-align: center;
+    }
+  }
 </style>
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -107,7 +122,13 @@
             <%}%>
             
             <td class="guest-name"><%= user.username %></td>
-            <td><%= book.checkInDate %>&nbsp; to &nbsp;<%= book.checkOutDate %><br><%= book.nights %> nights</td>
+            <% 
+  function formatDate(date) {
+    return new Date(date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
+  }
+%>
+
+<td><%= formatDate(book.checkInDate) %>&nbsp; to &nbsp;<%= formatDate(book.checkOutDate) %><br><%= book.nights %> nights</td>
             <td class="date-now"><%= book.time %></td>
             <td><a style="text-decoration: none;" href="/listings/<%= book.listing._id %>"><%= book.listing.title %></a></td>
             <td>
