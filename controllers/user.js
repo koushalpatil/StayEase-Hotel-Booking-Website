@@ -60,30 +60,19 @@ The StayEase Team
 
 
 //Email for the otp verfication before reservation
-function verifyMail1(user,req) {
+function verifyMail1(email,subject,message,otp) {
     return new Promise((resolve, reject) => {
-        let subject = 'OTP for StayEase Reservation Confirmation!';
+        
 
-        const otp = generateOTP();
-        let message = `
-Hi ${user.username},
-
-Thank you for choosing StayEase! To confirm your reservation, please enter the OTP (One-Time Password) below:
-
-Your OTP is: ${otp}
-
-If you didn't initiate this request, please ignore this email.
-
-Best regards,
-The StayEase Team
-`;
+        
+  
 
         
         
 
         var mailOptions = {
             from: process.env.SMTP_MAIL,
-            to: user.email,
+            to: email,
             subject: subject,
             text: message
         };
@@ -93,13 +82,16 @@ The StayEase Team
                 console.log(error);
                 reject(error);
             } else {
-                req.session.tempData.otp = otp;
+               
                 console.log("Email sent successfully.");
                 resolve(otp);
             }
         });
     });
 }
+
+
+
 
 
 module.exports.getList = (req,res)=>{
@@ -126,9 +118,28 @@ module.exports.verify1 = async (req, res, next) => {
     let {id} = req.params;
     req.session.tempData = data;
     const user = await User.findById(req.user.id);
+    const otp = generateOTP();
+   
+    
+    req.session.tempData.otp = otp;
+
+    let subject = 'OTP for StayEase Reservation Confirmation!';
+
+    let message = `
+    Hi ${user.username},
+    
+    Thank you for choosing StayEase! To confirm your reservation, please enter the OTP (One-Time Password) below:
+    
+    Your OTP is: ${otp}
+    
+    If you didn't initiate this request, please ignore this email.
+    
+    Best regards,
+    The StayEase Team
+    `;
 
     try {
-        const otp = await verifyMail1(user,req);
+        const otp = await verifyMail1(user.email,subject,message,otp);
         console.log("Temp data from user after verifyMail - ", req.session.tempData);
         res.render('user/otp(reservation).ejs',{id});
     } catch (error) {
@@ -138,12 +149,102 @@ module.exports.verify1 = async (req, res, next) => {
 }
 
 
+module.exports.forgotPassword = async(req,res)=>{
+    const {email} = req.body;
+    const otp = generateOTP();
+    console.log("otp is from forgot password - ",otp);
+    if (!req.session.tempData) {
+        req.session.tempData = {};
+    }
+    req.session.tempData.otp = otp;
+    let subject = 'Your OTP for Password Reset - StayEase';
+    let message = `
+
+We received a request to reset the password for your account associated with this email address. To proceed with the password reset, please use the following One-Time Password (OTP):
+
+    Your OTP: ${otp}
+
+    This OTP is valid for the next 10 minutes. If you did not request a password reset, please ignore this email or contact our support team immediately.
+
+    Thank you for using StayEase.
+
+    Best regards,
+    The StayEase Team
+`;
+
+
+    const response = await verifyMail1(email,subject,message,otp);
+    res.render('user/otp(forgot-password)');
+}
+
+module.exports.otpVerifyForgotPassword = async(req,res)=>{
+    let otp = req.body.first + req.body.second + req.body.third + req.body.forth + req.body.fifth + req.body.sixth;
+        if (otp !== req.session.tempData.otp) {
+            console.log("Invalid otp");
+            req.flash("error", "Invalid OTP, please try again!");
+            return res.redirect('/invalid');
+        }
+        delete req.session.tempData;
+        res.render('user/forgot-password.ejs');
+}
+
+
+module.exports.resetPassword = async (req, res) => {
+    let { username, password } = req.body;
+
+    try {
+        let user = await User.findOne({ username: username });
+
+        if (!user) {
+            req.flash("error", "Username does not exist");
+            return res.redirect('/invalid2');
+        }
+
+        // Set and hash the new password
+        user.setPassword(password, async function(err) {
+            if (err) {
+                req.flash("error", "Error resetting password");
+                return res.redirect('/invalid2');
+            }
+
+            try {
+                await user.save();
+                await passwordResetConfirmation(user.email, user.username);
+                
+                res.redirect('/login');
+            } catch (mailErr) {
+                req.flash("error", mailErr.message);
+                res.redirect('/signup');
+            }
+        });
+    } catch (err) {
+        req.flash("error", "An error occurred while resetting the password");
+        res.redirect('/invalid2');
+    }
+};
+
+
 module.exports.resend = async (req, res, next) => {
     try {
         let {id} = req.params;
         const user = await User.findById(req.user.id);
         req.flash("success","OTP resend to email.");
-        const otp = await verifyMail1(user,req);
+        const otp = generateOTP();
+        const subject = 'OTP for StayEase';
+        let message = `
+        Hi ${req.session.tempData.username},
+                
+        Thank you for signing up with StayEase! To complete your registration, please enter the OTP (One-Time Password) below:
+                
+        Your OTP is: ${otp}
+                
+        If you didn't initiate this request, please ignore this email.
+                
+        Best regards,
+        The StayEase Team
+                
+                `;
+        const response = await verifyMail1(user.email,subject,message,otp);
         console.log("Temp data from user after verifyMail - ", req.session.tempData);
        
         res.render('user/otp(reservation).ejs',{id});
@@ -246,6 +347,51 @@ Follow us on Facebook, Twitter, and Instagram
         });
     });
 }
+
+
+
+function passwordResetConfirmation(email, username) {
+    return new Promise((resolve, reject) => {
+        let subject = 'Your Password Has Been Reset - StayEase';
+
+        let message = `
+Dear ${username},
+
+This email is to confirm that your password has been successfully reset for your StayEase account.
+
+If you did not request a password reset or if you believe this change was made in error, please contact our support team immediately at support@stayease.com.
+
+To log in to your account, visit www.stayease.com and use your new password.
+
+Thank you for using StayEase. We are committed to ensuring your experience with us remains secure and enjoyable.
+
+Best regards,
+
+The StayEase Team
+
+www.stayease.com
+Follow us on Facebook, Twitter, and Instagram
+        `;
+
+        var mailOptions = {
+            from: process.env.SMTP_MAIL,
+            to: email,
+            subject: subject,
+            text: message
+        };
+
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error);
+                reject(error);
+            } else {
+                console.log("Email sent successfully.");
+                resolve(info);
+            }
+        });
+    });
+}
+
 
 
 

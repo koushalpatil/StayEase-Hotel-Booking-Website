@@ -16,6 +16,15 @@ router.get("/signup",userController.renderSignUpForm);
 //signup form
 router.post("/signup",wrapAsync(userController.signUp));
 
+router.post("/reset-password",wrapAsync(userController.resetPassword));
+
+
+//sending email for verifcation of forgot password and rendering the otp form
+router.post("/verify2",wrapAsync(userController.forgotPassword));
+
+
+//verifing the opt of forgot password
+router.post("/forgot-password",wrapAsync(userController.otpVerifyForgotPassword));
 
 router.get("/verify/:id",userController.getList);
 
@@ -35,6 +44,11 @@ router.get("/invalid",userController.invalid);
 
 //handling invalid otp for the verification before reservation
 router.get("/invalid1",userController.invalid1);
+
+
+router.get("/invalid2",(req,res)=>{
+    res.render('user/forgot-password.ejs');
+})
 
 
 
