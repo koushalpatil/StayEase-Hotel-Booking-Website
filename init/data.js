@@ -1,29 +1,4 @@
 const sampleListings = [
-  {
-    title: "Cozy Beachfront Cottage",
-    description: "Escape to this charming beachfront cottage for a relaxing getaway. Enjoy stunning ocean views and easy access to the beach.",
-    image: {
-        filename: "listingimage",
-        url: ["https://images.unsplash.com/photo-1540541338287-41700207dee6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "https://www.tripsavvy.com/thmb/hmI_d_h1CNpYOXI2jzf8-rHvluo=/2540x1694/filters:no_upscale():max_bytes(150000):strip_icc()/luxe-sea-view-f49a9d6ccc97437493b87b481a2f4ed4.jpeg",
-  "https://photos.mandarinoriental.com/is/image/MandarinOriental/dubai-suite-skyline-view-bedroom",
-  "https://www.hotelsinheaven.com/wp-content/uploads/2020/10/mandarin-oriental-jumeirah-dubai-bedroom-suite-1500x842.jpg","http://www.btmagazine.nl/wp-content/uploads/2013/09/Bedroom-Presidential-Suite-Moevenpick-Hotel-Enshi.jpg"]
-    },
-    price: 1500,
-    location: "Malibu",
-    country: "United States",
-    category: "Beachfront",
-    essentials:["Garden view","Wifi","Parking","AC","CCTV"],
-    max_guest:4,
-    bedrooms:4,
-    beds:6,
-    king:2,
-    queen:2,
-    twin:2,
-    kitchen:"Yes",
-    bathroomType:"Separate",
-    bathrooms:3,
-},
 {
     title: "Modern Loft in Downtown",
     description: "Stay in the heart of the city in this stylish loft apartment. Perfect for urban explorers!",
