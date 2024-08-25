@@ -43,6 +43,8 @@ module.exports.renderNewForm = (req,res)=>{
 module.exports.showListing = async(req,res)=>{
     let {id} = req.params;
     let data = await List.findById(id).populate({path:"reviews",populate:{path:"author"}}).populate("owner");
+    console.log("data owner id is : ",data);
+    
     
     if(data)
     {

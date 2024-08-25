@@ -139,7 +139,7 @@ module.exports.verify1 = async (req, res, next) => {
     `;
 
     try {
-        const otp = await verifyMail1(user.email,subject,message,otp);
+        const response = await verifyMail1(user.email,subject,message,otp);
         console.log("Temp data from user after verifyMail - ", req.session.tempData);
         res.render('user/otp(reservation).ejs',{id});
     } catch (error) {
