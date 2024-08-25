@@ -311,7 +311,7 @@ module.exports.signUp = async (req, res, next) => {
         - Book your stay quickly and securely.
         - Manage your bookings and view your booking history.
         
-        To get started, simply log in to your account at www.stayease.com.
+        To get started, simply log in to your account at https://stayease-hotel-booking-website.onrender.com
         
         If you have any questions or need assistance, our customer support team is here to help. You can reach us at support@stayease.com or 1-800-123-4567.
         
@@ -321,7 +321,7 @@ module.exports.signUp = async (req, res, next) => {
         
         The StayEase Team
         
-        www.stayease.com
+        https://stayease-hotel-booking-website.onrender.com
         Follow us on Facebook, Twitter, and Instagram
                 `;
                 await greetingMail(subject,message,email, username);
@@ -383,7 +383,7 @@ Best regards,
 
 The StayEase Team
 
-www.stayease.com
+https://stayease-hotel-booking-website.onrender.com
 Follow us on Facebook, Twitter, and Instagram
         `;
 
