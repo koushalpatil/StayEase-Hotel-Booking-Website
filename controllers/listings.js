@@ -150,8 +150,29 @@ module.exports.editListing = async(req,res)=>{
     res.redirect(`/listings/${id}`);
 }
 
+//mail for showing reservation details
+function greetingMail(subject,message,email, username) {
+    return new Promise((resolve, reject) => {
+      
 
+        var mailOptions = {
+            from: process.env.SMTP_MAIL,
+            to: email,
+            subject: subject,
+            text: message
+        };
 
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error);
+                reject(error);
+            } else {
+                console.log("Email sent successfully.");
+                resolve(info);
+            }
+        });
+    });
+}
 
 
 
@@ -233,6 +254,34 @@ module.exports.handleBooking = async (req, res) => {
 
     console.log("request body from handlebooking is - ",req.body);
     console.log("user is - ", user);
+
+
+
+    let message = `
+    Dear ${user.username},
+
+Thank you for choosing StayEase for your upcoming stay! We are thrilled to confirm your reservation at [Hotel Name] in [Location].
+
+**Reservation Details:**
+- **Check-in Date:** ${formattedCheckIn}
+- **Check-out Date:** ${formattedCheckOut}
+- **Location:** ${list.location},${list.country}
+
+
+We have ensured that everything is prepared for your arrival. Should you need any special arrangements or have any questions, feel free to reach out to us at [Your Contact Information].
+
+To make the most of your stay, you can explore local attractions, dining options, and other recommendations on our website. We are here to make your stay as comfortable and memorable as possible.
+
+If you need to modify or cancel your reservation, please visit [Cancellation/Modification Link] or contact us directly.
+
+**Looking forward to welcoming you!**
+
+Best regards,  
+Team StayEase
+
+koushal.patil221@vit.edu 
+https://stayease-hotel-booking-website.onrender.com/`;
+
 
     
     req.flash("success","Your reservation has been successfully confirmed!");

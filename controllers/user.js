@@ -63,13 +63,6 @@ The StayEase Team
 function verifyMail1(email,subject,message,otp) {
     return new Promise((resolve, reject) => {
         
-
-        
-  
-
-        
-        
-
         var mailOptions = {
             from: process.env.SMTP_MAIL,
             to: email,
@@ -146,6 +139,26 @@ module.exports.verify1 = async (req, res, next) => {
         console.error("Error sending email:", error);
         res.status(500).json({ success: false, message: "Failed to send email." });
     }
+}
+
+
+module.exports.enquiryHandling = async(req,res)=>{
+    let {name,email} = req.body;
+    let subject = 'Thank You for Contacting Us!';
+    let message = `
+    Dear ${name},
+
+Thank you for getting in touch with us! We have received your message and appreciate you reaching out. 
+
+One of our team members will get back to you as soon as possible. If you need immediate assistance, please feel free to call us at [Your Phone Number].
+
+In the meantime, feel free to explore our website for more information.
+
+Best regards,
+Team StayEase`;
+await greetingMail(subject,message,email,name);
+req.flash("success","Thank you for getting in touch! ");
+res.redirect("/");
 }
 
 
@@ -284,7 +297,34 @@ module.exports.signUp = async (req, res, next) => {
             }
 
             try {
-                await greetingMail(email, username);
+                let subject = 'Welcome to StayEase!';
+
+                let message = `
+        Dear ${username},
+        
+        Welcome to StayEase!
+        
+        Thank you for signing up with us. We're excited to have you on board and look forward to helping you find the perfect hotel for your next stay. Here are some of the things you can do on our website:
+        
+        - Search for hotels by location, date, and amenities.
+        - View detailed descriptions, photos, and reviews of hotels.
+        - Book your stay quickly and securely.
+        - Manage your bookings and view your booking history.
+        
+        To get started, simply log in to your account at www.stayease.com.
+        
+        If you have any questions or need assistance, our customer support team is here to help. You can reach us at support@stayease.com or 1-800-123-4567.
+        
+        Thank you for choosing StayEase. We hope you have a wonderful experience with us!
+        
+        Best regards,
+        
+        The StayEase Team
+        
+        www.stayease.com
+        Follow us on Facebook, Twitter, and Instagram
+                `;
+                await greetingMail(subject,message,email, username);
                 req.flash("success", `Welcome ${username} to Wanderlust!`);
                 res.redirect('/listings');
             } catch (mailErr) {
@@ -299,35 +339,9 @@ module.exports.signUp = async (req, res, next) => {
 };
 
 //MAIL FOR GREETING AFTER SIGNUP
-function greetingMail(email, username) {
+function greetingMail(subject,message,email, username) {
     return new Promise((resolve, reject) => {
-        let subject = 'Welcome to StayEase!';
-
-        let message = `
-Dear ${username},
-
-Welcome to StayEase!
-
-Thank you for signing up with us. We're excited to have you on board and look forward to helping you find the perfect hotel for your next stay. Here are some of the things you can do on our website:
-
-- Search for hotels by location, date, and amenities.
-- View detailed descriptions, photos, and reviews of hotels.
-- Book your stay quickly and securely.
-- Manage your bookings and view your booking history.
-
-To get started, simply log in to your account at www.stayease.com.
-
-If you have any questions or need assistance, our customer support team is here to help. You can reach us at support@stayease.com or 1-800-123-4567.
-
-Thank you for choosing StayEase. We hope you have a wonderful experience with us!
-
-Best regards,
-
-The StayEase Team
-
-www.stayease.com
-Follow us on Facebook, Twitter, and Instagram
-        `;
+      
 
         var mailOptions = {
             from: process.env.SMTP_MAIL,
