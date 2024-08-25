@@ -283,7 +283,7 @@ koushal.patil221@vit.edu
 https://stayease-hotel-booking-website.onrender.com/`;
 
 
-    
+    greetingMail(subject,message,user.email,user.username);
     req.flash("success","Your reservation has been successfully confirmed!");
     res.redirect("/listings");
 }
