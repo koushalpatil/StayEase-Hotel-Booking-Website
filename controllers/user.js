@@ -273,7 +273,8 @@ module.exports.invalid = (req,res)=>{
 }
 
 module.exports.invalid1 = (req,res)=>{
-    res.render('user(reservation)/otp.ejs');
+    let {id} = req.params;
+    res.render('user/otp(reservation).ejs',{id});
 }
 
 module.exports.signUp = async (req, res, next) => {

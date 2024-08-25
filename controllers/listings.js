@@ -4,6 +4,19 @@ const mapToken = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: mapToken});
 const User = require('../models/user.js');
 
+const nodemailer = require("nodemailer");
+
+
+const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: process.env.SMTP_PORT,
+    secure: false, // Use `true` for port 465, `false` for all other ports
+    auth: {
+      user:process.env.SMTP_MAIL ,
+      pass: process.env.SMTP_PASSWORD,
+    },
+});
+
 
 module.exports.index = async(req,res)=>{
     let listings = await List.find({});
@@ -180,16 +193,17 @@ module.exports.handleBooking = async (req, res) => {
 
     let otp = req.body.first + req.body.second + req.body.third + req.body.forth + req.body.fifth + req.body.sixth;
     console.log("Temp data from handleBooking - ", req.session.tempData);
+    let { id } = req.params;
     if (otp !== req.session.tempData.otp) {
         console.log("Invalid otp");
         
-        req.flash("error", "Invalid OTP, please try again!");
-        return res.redirect('/invalid1');
+        
+        return res.redirect(`/invalid1/${id}`);
     }
 
 
 
-    let { id } = req.params;
+   
     const { checkIn, checkOut } = req.session.tempData;
 
     // Convert checkIn and checkOut to Date objects assuming format is DD-MM-YYYY
@@ -256,7 +270,7 @@ module.exports.handleBooking = async (req, res) => {
     console.log("user is - ", user);
 
 
-
+    let subject =`Reservation Confirmed: We're Excited to Host You!`;
     let message = `
     Dear ${user.username},
 
@@ -283,7 +297,7 @@ koushal.patil221@vit.edu
 https://stayease-hotel-booking-website.onrender.com/`;
 
 
-    greetingMail(subject,message,user.email,user.username);
+    await greetingMail(subject,message,user.email,user.username);
     req.flash("success","Your reservation has been successfully confirmed!");
     res.redirect("/listings");
 }

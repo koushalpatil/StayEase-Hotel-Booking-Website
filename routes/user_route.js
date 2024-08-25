@@ -46,7 +46,7 @@ router.get("/resend/:id",wrapAsync(userController.resend));
 router.get("/invalid",userController.invalid);
 
 //handling invalid otp for the verification before reservation
-router.get("/invalid1",userController.invalid1);
+router.get("/invalid1/:id",userController.invalid1);
 
 
 router.get("/invalid2",(req,res)=>{
