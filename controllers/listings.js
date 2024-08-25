@@ -285,7 +285,7 @@ https://stayease-hotel-booking-website.onrender.com/`;
 
     
     req.flash("success","Your reservation has been successfully confirmed!");
-    res.render("user/reservations.ejs", { user });
+    res.redirect("/listings");
 }
 
 

@@ -29,7 +29,7 @@ router.post("/forgot-password",wrapAsync(userController.otpVerifyForgotPassword)
 router.get("/verify/:id",userController.getList);
 
 
-router.post("/inquiry",wrapAsync(userController.enquiryHandling));
+router.post("/enquiry",wrapAsync(userController.enquiryHandling));
 
 
 //verify post request

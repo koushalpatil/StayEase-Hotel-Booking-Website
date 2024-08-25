@@ -157,8 +157,8 @@ In the meantime, feel free to explore our website for more information.
 Best regards,
 Team StayEase`;
 await greetingMail(subject,message,email,name);
-req.flash("success","Thank you for getting in touch! ");
-res.redirect("/");
+req.flash("success","Thank you for getting in touch!");
+res.redirect("/listings");
 }
 
 
