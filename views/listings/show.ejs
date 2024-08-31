@@ -500,11 +500,13 @@ for(let day of days)
 
         },
         dateClick: function(info) {
+
           const clickedDate = new Date(info.dateStr);
 
           if (info.dayEl.classList.contains('fc-unselectable')) {
             return;
           }
+          
 
           // Clear previous selections if both check-in and check-out are selected
           if (selectedCheckInDate && selectedCheckOutDate) {
@@ -518,6 +520,7 @@ for(let day of days)
             }
             selectedCheckInDate = null;
             selectedCheckOutDate = null;
+            document.querySelector('.fc-prev-button').disabled = false;
           }
 
           // Set new selection
@@ -529,6 +532,9 @@ for(let day of days)
 
             // Disable dates before check-in
             const days = calendarEl.getElementsByClassName('fc-daygrid-day');
+            
+            console.log("days from show.ejs are - ",document.getElementsByClassName('.fc-prev-button'));
+            
             for (let day of days) {
               const date = new Date(day.getAttribute('data-date'));
               if (date < clickedDate) {
@@ -540,6 +546,7 @@ for(let day of days)
             selectedCheckOutDate.classList.add('fc-selected-date');
             selectedCheckOutDate.style.borderRadius = '8px'; // Set border radius
           }
+          document.querySelector('.fc-prev-button').disabled = true;
 
 
           if(selectedCheckInDate && selectedCheckOutDate)
@@ -580,7 +587,9 @@ for(let day of days)
             document.querySelector(".gst").textContent = `₹${gst.toLocaleString("en-IN")}`;
             let final = total+gst+500;
             document.querySelector(".final-bill").textContent = `₹${final.toLocaleString("en-IN")}`;
+           
             
+           
           }
         }
       });
@@ -721,7 +730,7 @@ for(let day of days)
                                     <h4 style="font-weight: 600;" class="no_of_nights">Select check-in date</h4>
                                     <p class="stay">Add your travel dates for exact pricing</p>
                                     <!-- CALENDAR -->
-                                    <div class="col-10">
+                                    <div class="col-lg-10 col-12">
                                         <div id='calendar'></div>
                                     </div>
                                 </div>
