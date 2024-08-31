@@ -498,6 +498,55 @@ for(let day of days)
     
 }
 
+document.getElementById('reset-dates').addEventListener('click', function() {
+    // Clear the selected dates
+    if (selectedCheckInDate) {
+        selectedCheckInDate.classList.remove('fc-selected-date');
+    }
+    if (selectedCheckOutDate) {
+        selectedCheckOutDate.classList.remove('fc-selected-date');
+    }
+    
+    // Reset the variables
+    selectedCheckInDate = null;
+    selectedCheckOutDate = null;
+
+    // Clear disabled dates
+    const days = calendarEl.getElementsByClassName('fc-daygrid-day');
+    for (let day of days) {
+    
+        day.classList.remove('fc-disabled-date');
+        day.classList.remove('fc-unselectable');
+    }
+
+
+    for(let i=0;i<in_arr.length;i++)
+    {
+        for(let day of days)
+    {
+        if(day.getAttribute('data-date')>=in_arr[i] && day.getAttribute('data-date')<out_arr[i])
+    {
+        day.classList.add('fc-disabled-date');
+        day.classList.add('fc-unselectable');
+    }
+    }
+    }
+
+    // Re-enable the previous button if it was disabled
+    document.querySelector('.fc-prev-button').disabled = false;
+
+    // Optional: Clear any displayed date information in the UI
+    
+    
+    document.getElementById('check-in-date').value = '---';
+    document.getElementById('check-out-date').value = '---';
+    
+    document.querySelector(".total-bill").textContent = '₹0';
+    document.querySelector(".cleaning-fee").textContent = '₹0';
+    document.querySelector(".gst").textContent = '₹0';
+    document.querySelector(".final-bill").textContent = '₹0';
+});
+
         },
         dateClick: function(info) {
 
@@ -730,9 +779,11 @@ for(let day of days)
                                     <h4 style="font-weight: 600;" class="no_of_nights">Select check-in date</h4>
                                     <p class="stay">Add your travel dates for exact pricing</p>
                                     <!-- CALENDAR -->
-                                    <div class="col-lg-10 col-12">
+                                    <div class="col-md-10 col-12 ">
                                         <div id='calendar'></div>
                                     </div>
+                                    <button id="reset-dates" style="color: white; border: none;  background-color: #e14d50; margin-left: 1rem;" class="btn btn-primary col-lg-3 col-4"  type="button">Reset Dates</button>
+
                                 </div>
                             </div>
                             
